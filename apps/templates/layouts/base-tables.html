@@ -1,0 +1,50 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} {{ table_title }} {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+  <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">{{ table_title }}</h4>
+            <p class="card-category">{{ table_subtitle }}</p>
+          </div>
+
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+
+                <thead class=" text-primary">
+                  {% for head in table_header %}
+                    <th>{{ head }}</th>
+                  {% endfor %}
+                </thead>
+
+                <tbody>
+                  {% for body in table_body %}
+                    <tr>
+                      {% for field in body %}
+                        <td>{{ field }}</td>
+                      {% endfor %}
+                    </tr>
+                  {% endfor %}
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
