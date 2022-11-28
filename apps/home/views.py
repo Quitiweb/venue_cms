@@ -8,6 +8,28 @@ from apps.home import forms, models
 
 
 @login_required(login_url="/login/")
+def create_new_record(request, model):
+    if not model:
+        return HttpResponseRedirect(reverse('index'))
+
+    if model == 'campaigns':
+        name = request.POST['name']
+        try:
+            models.Campaign.objects.create(name=name)
+        except Exception as e:
+            raise e
+
+    return HttpResponseRedirect(reverse(model))
+
+
+@login_required(login_url="/login/")
+def new_record(request, model):
+    loader_template = loader.get_template('layouts/add-new-record.html')
+    context = {'segment': model}
+    return HttpResponse(loader_template.render(context, request))
+
+
+@login_required(login_url="/login/")
 def delete(request, model, pk):
     record_to_delete = None
 
@@ -54,8 +76,6 @@ def media(request):
 
     context = {
         'segment': 'media',
-        'table_title': 'Media',
-        'table_subtitle': '',
         'table_header': ['Media Name', 'Date Uploaded', 'Type', 'Size', 'Action'],
         'table_body': table_body,
     }
@@ -80,8 +100,6 @@ def faucets(request):
 
     context = {
         'segment': 'faucets',
-        'table_title': 'Faucets',
-        'table_subtitle': '',
         'table_header': ['Faucet Name', 'MAC', 'IP Address', 'Status', 'Action'],
         'table_body': table_body,
     }
@@ -105,8 +123,6 @@ def venues(request):
 
     context = {
         'segment': 'venues',
-        'table_title': 'Venues',
-        'table_subtitle': '',
         'table_header': ['Venue Name', 'Country', 'State', 'Action'],
         'table_body': table_body,
     }
@@ -134,7 +150,6 @@ def campaigns(request):
 
     context = {
         'segment': 'campaigns',
-        'table_title': 'Campaigns',
         'table_subtitle': '',
         'table_header': ['Campaign Name', 'Date Created', 'Date Expires', 'Action'],
         'table_body': table_body,

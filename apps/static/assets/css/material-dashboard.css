@@ -3284,6 +3284,7 @@ tbody.collapse.show {
   padding: 1.25rem; }
 
 .card-title {
+  text-transform: capitalize;
   margin-bottom: 0.75rem; }
 
 .card-subtitle {
