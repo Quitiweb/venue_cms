@@ -14,3 +14,21 @@
 ## FlowChart
 
 ![img.png](img.png)
+
+## Pending points
+
+- [x] HTML template for `Views/GET` Campaigns, Venues, Faucets, etc.
+- [ ] Add `New` button
+- [ ] Create `Add new record` template
+- [ ] `Add` views and forms
+- [x] Add `Actions` column
+- [x] Deletes
+- [ ] Edits
+- [ ] HTML template for EDITs (or maybe one for each)
+- [ ] EDIT Forms
+- [ ] Administration section
+
+### Notes
+
+- Material Dashboard revamp:
+    - `apps.home.config.py` (I've deleted this. It looks that it works right)

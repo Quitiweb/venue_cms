@@ -8,6 +8,22 @@ from apps.home import forms, models
 
 
 @login_required(login_url="/login/")
+def delete(request, model, pk):
+    record_to_delete = None
+
+    if not model:
+        return HttpResponseRedirect(reverse('index'))
+
+    if model == 'campaigns':
+        record_to_delete = models.Campaign.objects.get(id=pk)
+
+    if record_to_delete:
+        record_to_delete.delete()
+
+    return HttpResponseRedirect(reverse(model))
+
+
+@login_required(login_url="/login/")
 def profile(request):
     plantilla = loader.get_template('home/page-user.html')
     context = {'segment': 'page-user'}
@@ -25,16 +41,22 @@ def reporting(request):
 def media(request):
     plantilla = loader.get_template('layouts/base-tables.html')
     table_body = []
+    table_records = {}
 
     if request.method == 'GET':
         for m in models.Media.objects.all():
-            table_body.append([m.name, m.date_uploaded, m.type, m.size])
+            table_records['col1'] = m.name
+            table_records['col2'] = m.date_uploaded
+            table_records['col3'] = m.type
+            table_records['col4'] = m.size
+            table_records['Action'] = m.id
+            table_body.append(table_records.copy())
 
     context = {
         'segment': 'media',
         'table_title': 'Media',
         'table_subtitle': '',
-        'table_header': ['Media Name', 'Date Uploaded', 'Type', 'Size'],
+        'table_header': ['Media Name', 'Date Uploaded', 'Type', 'Size', 'Action'],
         'table_body': table_body,
     }
 
@@ -45,16 +67,22 @@ def media(request):
 def faucets(request):
     plantilla = loader.get_template('layouts/base-tables.html')
     table_body = []
+    table_records = {}
 
     if request.method == 'GET':
         for f in models.Faucet.objects.all():
-            table_body.append([f.name, f.mac, f.ip_address, f.status])
+            table_records['col1'] = f.name
+            table_records['col2'] = f.mac
+            table_records['col3'] = f.ip_address
+            table_records['col4'] = f.status
+            table_records['Action'] = f.id
+            table_body.append(table_records.copy())
 
     context = {
         'segment': 'faucets',
         'table_title': 'Faucets',
         'table_subtitle': '',
-        'table_header': ['Faucet Name', 'MAC', 'IP Address', 'Status'],
+        'table_header': ['Faucet Name', 'MAC', 'IP Address', 'Status', 'Action'],
         'table_body': table_body,
     }
 
@@ -65,16 +93,21 @@ def faucets(request):
 def venues(request):
     plantilla = loader.get_template('layouts/base-tables.html')
     table_body = []
+    table_records = {}
 
     if request.method == 'GET':
         for v in models.Venue.objects.all():
-            table_body.append([v.name, v.country, v.state])
+            table_records['col1'] = v.name
+            table_records['col2'] = v.country
+            table_records['col3'] = v.state
+            table_records['Action'] = v.id
+            table_body.append(table_records.copy())
 
     context = {
         'segment': 'venues',
         'table_title': 'Venues',
         'table_subtitle': '',
-        'table_header': ['Venue Name', 'Country', 'State'],
+        'table_header': ['Venue Name', 'Country', 'State', 'Action'],
         'table_body': table_body,
     }
 
@@ -85,11 +118,16 @@ def venues(request):
 def campaigns(request):
     plantilla = loader.get_template('layouts/base-tables.html')
     table_body = []
+    table_records = {}
 
     if request.method == 'GET':
         all_campaigns = models.Campaign.objects.all()
         for c in all_campaigns:
-            table_body.append([c.name, c.start_date, c.end_date])
+            table_records['col1'] = c.name
+            table_records['col2'] = c.start_date
+            table_records['col3'] = c.end_date
+            table_records['Action'] = c.id
+            table_body.append(table_records.copy())
 
     if request.method == 'POST':
         pass
@@ -98,7 +136,7 @@ def campaigns(request):
         'segment': 'campaigns',
         'table_title': 'Campaigns',
         'table_subtitle': '',
-        'table_header': ['Campaign Name', 'Date Created', 'Date Expires'],
+        'table_header': ['Campaign Name', 'Date Created', 'Date Expires', 'Action'],
         'table_body': table_body,
     }
 

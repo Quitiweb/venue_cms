@@ -29,8 +29,14 @@
                 <tbody>
                   {% for body in table_body %}
                     <tr>
-                      {% for field in body %}
-                        <td>{{ field }}</td>
+                      {% for key, value in body.items %}
+                        <td>
+                          {% if key == 'Action' %}
+                            Edit | <a href="delete/{{ segment }}/{{ value }}">Delete</a>
+                          {% else %}
+                            {{ value }}
+                          {% endif %}
+                        </td>
                       {% endfor %}
                     </tr>
                   {% endfor %}
