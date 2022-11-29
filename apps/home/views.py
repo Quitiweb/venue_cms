@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
 
-from apps.home import forms, models
+from apps.home import forms, models, utils
 
 
 @login_required(login_url="/login/")
@@ -12,12 +12,12 @@ def create_new_record(request, model):
     if not model:
         return HttpResponseRedirect(reverse('index'))
 
-    if model == 'campaigns':
-        name = request.POST['name']
-        try:
-            models.Campaign.objects.create(name=name)
-        except Exception as e:
-            raise e
+    if request.method == 'POST':
+        form_object = utils.get_form_from_segment(model)
+        form = form_object(request.POST)
+
+        if form.is_valid():
+            form.save()
 
     return HttpResponseRedirect(reverse(model))
 
@@ -25,19 +25,20 @@ def create_new_record(request, model):
 @login_required(login_url="/login/")
 def new_record(request, model):
     loader_template = loader.get_template('layouts/add-new-record.html')
-    context = {'segment': model}
+    context = {
+        'segment': model,
+        'form': utils.get_form_from_segment(model)
+    }
     return HttpResponse(loader_template.render(context, request))
 
 
 @login_required(login_url="/login/")
 def delete(request, model, pk):
-    record_to_delete = None
-
     if not model:
         return HttpResponseRedirect(reverse('index'))
 
-    if model == 'campaigns':
-        record_to_delete = models.Campaign.objects.get(id=pk)
+    model_object = utils.get_model_from_segment(model)
+    record_to_delete = model_object.objects.get(id=pk)
 
     if record_to_delete:
         record_to_delete.delete()
