@@ -12,6 +12,9 @@ class Campaign(models.Model):
     washroom_groups = models.ForeignKey('Washroom', on_delete=models.CASCADE, null=True)
     owner = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL'), on_delete=models.CASCADE)
 
+    def __str__(self):
+        return str(self.name) if self.name else "-"
+
 
 class Venue(models.Model):
     name = models.CharField(max_length=100)
@@ -37,12 +40,18 @@ class Venue(models.Model):
     loop_size = models.IntegerField(default=0)
     max_ad_time = models.TimeField(blank=True, null=True)
 
+    def __str__(self):
+        return str(self.name) if self.name else "-"
+
 
 class Washroom(models.Model):
     gender = models.CharField(max_length=25)
     name = models.CharField(max_length=100)
     group_association = models.CharField(max_length=50)
     faucets = models.ForeignKey('Faucet', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.name) if self.name else "-"
 
 
 class Faucet(models.Model):
@@ -52,6 +61,9 @@ class Faucet(models.Model):
     status = models.CharField(max_length=50)
     playlist = models.CharField(max_length=100)
 
+    def __str__(self):
+        return str(self.name) if self.name else "-"
+
 
 class Media(models.Model):
     name = models.CharField(max_length=100)
@@ -59,3 +71,6 @@ class Media(models.Model):
     date_uploaded = models.DateTimeField(auto_now_add=True)
     type = models.CharField(max_length=50)
     size = models.IntegerField(null=True)
+
+    def __str__(self):
+        return str(self.name) if self.name else "-"
