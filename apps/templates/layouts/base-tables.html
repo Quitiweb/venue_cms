@@ -32,7 +32,7 @@
                       {% for key, value in body.items %}
                         <td>
                           {% if key == 'Action' %}
-                            Edit | <a href="delete/{{ segment }}/{{ value }}">Delete</a>
+                            <a href="update/{{ segment }}/{{ value }}">Edit</a> | <a href="delete/{{ segment }}/{{ value }}">Delete</a>
                           {% else %}
                             {{ value }}
                           {% endif %}

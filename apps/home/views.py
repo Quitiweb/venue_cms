@@ -1,10 +1,32 @@
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.template import loader
 from django.urls import reverse
 
-from apps.home import forms, models, utils
+from apps.home import models, utils
+
+
+@login_required(login_url="/login/")
+def update(request, model, pk):
+    loader_template = loader.get_template('layouts/update-record.html')
+    instance = get_object_or_404(utils.get_model_from_segment(model), id=pk)
+    form_object = utils.get_form_from_segment(model)
+
+    if request.method == 'POST':
+        form = form_object(request.POST or None, instance=instance)
+        if form.is_valid():
+            form.save()
+
+        return HttpResponseRedirect(reverse(model))
+
+    form = form_object(instance=instance)
+    context = {
+        'segment': model,
+        'form': form
+    }
+    return HttpResponse(loader_template.render(context, request))
 
 
 @login_required(login_url="/login/")
@@ -48,21 +70,21 @@ def delete(request, model, pk):
 
 @login_required(login_url="/login/")
 def profile(request):
-    plantilla = loader.get_template('home/page-user.html')
+    html_template = loader.get_template('home/page-user.html')
     context = {'segment': 'page-user'}
-    return HttpResponse(plantilla.render(context, request))
+    return HttpResponse(html_template.render(context, request))
 
 
 @login_required(login_url="/login/")
 def reporting(request):
-    plantilla = loader.get_template('home/ui-notifications.html')
+    html_template = loader.get_template('home/ui-notifications.html')
     context = {'segment': 'reporting'}
-    return HttpResponse(plantilla.render(context, request))
+    return HttpResponse(html_template.render(context, request))
 
 
 @login_required(login_url="/login/")
 def media(request):
-    plantilla = loader.get_template('layouts/base-tables.html')
+    html_template = loader.get_template('layouts/base-tables.html')
     table_body = []
     table_records = {}
 
@@ -81,12 +103,12 @@ def media(request):
         'table_body': table_body,
     }
 
-    return HttpResponse(plantilla.render(context, request))
+    return HttpResponse(html_template.render(context, request))
 
 
 @login_required(login_url="/login/")
 def faucets(request):
-    plantilla = loader.get_template('layouts/base-tables.html')
+    html_template = loader.get_template('layouts/base-tables.html')
     table_body = []
     table_records = {}
 
@@ -105,12 +127,12 @@ def faucets(request):
         'table_body': table_body,
     }
 
-    return HttpResponse(plantilla.render(context, request))
+    return HttpResponse(html_template.render(context, request))
 
 
 @login_required(login_url="/login/")
 def venues(request):
-    plantilla = loader.get_template('layouts/base-tables.html')
+    html_template = loader.get_template('layouts/base-tables.html')
     table_body = []
     table_records = {}
 
@@ -128,12 +150,12 @@ def venues(request):
         'table_body': table_body,
     }
 
-    return HttpResponse(plantilla.render(context, request))
+    return HttpResponse(html_template.render(context, request))
 
 
 @login_required(login_url="/login/")
 def campaigns(request):
-    plantilla = loader.get_template('layouts/base-tables.html')
+    html_template = loader.get_template('layouts/base-tables.html')
     table_body = []
     table_records = {}
 
@@ -156,7 +178,7 @@ def campaigns(request):
         'table_body': table_body,
     }
 
-    return HttpResponse(plantilla.render(context, request))
+    return HttpResponse(html_template.render(context, request))
 
 
 @login_required(login_url="/login/")
