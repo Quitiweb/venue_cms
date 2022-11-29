@@ -18,15 +18,17 @@
 ## Pending points
 
 - [x] HTML template for `Views/GET` Campaigns, Venues, Faucets, etc.
-- [ ] Add `New` button
-- [ ] Create `Add new record` template
-- [ ] `Add` views and forms
+- [x] Add `New` button
+- [x] Create `Add new record` template
+- [x] `Add` views and forms
 - [x] Add `Actions` column
 - [x] Deletes
-- [ ] Edits
-- [ ] HTML template for EDITs (or maybe one for each)
-- [ ] EDIT Forms
+- [x] Edits
+- [x] HTML template for EDITs (or maybe one for each)
+- [x] EDIT Forms
 - [ ] Administration section
+- [ ] Notifications: saving, updating and deleting
+- [ ] Error messages: required fields
 
 ### Notes
 
