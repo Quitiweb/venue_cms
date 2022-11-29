@@ -18,7 +18,11 @@
         {% if segment not in 'index' %}
           <li>
             <a href="{% url 'new_record' model=segment %}">
-              <button class="btn btn-primary btn-block">New {{ segment }}</button>
+              {% if segment == 'administration' %}
+                <button class="btn btn-primary btn-block">New User</button>
+              {% else %}
+                <button class="btn btn-primary btn-block">New {{ segment }}</button>
+              {% endif %}
             </a>
           </li>
         {% endif %}

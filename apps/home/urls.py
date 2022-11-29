@@ -15,5 +15,6 @@ urlpatterns = [
     path('faucets', views.faucets, name='faucets'),
     path('media', views.media, name='media'),
     path('reporting', views.reporting, name='reporting'),
+    path('administration', views.administration, name='administration'),
     path('profile', views.profile, name='profile'),
 ]

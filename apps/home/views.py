@@ -6,6 +6,7 @@ from django.template import loader
 from django.urls import reverse
 
 from apps.home import models, utils
+from users.models import Account
 
 
 @login_required(login_url="/login/")
@@ -72,6 +73,30 @@ def delete(request, model, pk):
 def profile(request):
     html_template = loader.get_template('home/page-user.html')
     context = {'segment': 'page-user'}
+    return HttpResponse(html_template.render(context, request))
+
+
+@login_required(login_url="/login/")
+def administration(request):
+    html_template = loader.get_template('layouts/base-tables.html')
+    table_body = []
+    table_records = {}
+
+    if request.method == 'GET':
+        for a in Account.objects.all():
+            table_records['col1'] = a.email
+            table_records['col2'] = a.is_staff
+            table_records['col3'] = a.date_created
+            table_records['col4'] = a.is_active
+            table_records['Action'] = a.id
+            table_body.append(table_records.copy())
+
+    context = {
+        'segment': 'administration',
+        'table_header': ['Username', 'AVNO', 'Date Created', 'Active', 'Action'],
+        'table_body': table_body,
+    }
+
     return HttpResponse(html_template.render(context, request))
 
 

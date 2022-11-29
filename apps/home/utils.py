@@ -1,4 +1,6 @@
 from apps.home import models, forms
+from users.forms import AccountForm
+from users.models import Account
 
 
 def get_model_from_segment(segment=None):
@@ -12,6 +14,8 @@ def get_model_from_segment(segment=None):
         return models.Faucet
     if segment == 'media':
         return models.Media
+    if segment == 'administration':
+        return Account
 
 
 def get_form_from_segment(segment=None):
@@ -25,3 +29,5 @@ def get_form_from_segment(segment=None):
         return forms.FaucetForm
     if segment == 'media':
         return forms.MediaForm
+    if segment == 'administration':
+        return AccountForm
