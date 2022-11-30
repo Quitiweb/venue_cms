@@ -156,6 +156,30 @@ def faucets(request):
 
 
 @login_required(login_url="/login/")
+def washrooms(request):
+    html_template = loader.get_template('layouts/base-tables.html')
+    table_body = []
+    table_records = {}
+
+    if request.method == 'GET':
+        for w in models.Washroom.objects.all():
+            table_records['col1'] = w.gender
+            table_records['col2'] = w.name
+            table_records['col3'] = w.group_association
+            table_records['col4'] = w.faucets
+            table_records['Action'] = w.id
+            table_body.append(table_records.copy())
+
+    context = {
+        'segment': 'washrooms',
+        'table_header': ['Gender', 'Name', 'Group Association', 'Faucets', 'Action'],
+        'table_body': table_body,
+    }
+
+    return HttpResponse(html_template.render(context, request))
+
+
+@login_required(login_url="/login/")
 def venues(request):
     html_template = loader.get_template('layouts/base-tables.html')
     table_body = []
@@ -192,9 +216,6 @@ def campaigns(request):
             table_records['col3'] = c.end_date
             table_records['Action'] = c.id
             table_body.append(table_records.copy())
-
-    if request.method == 'POST':
-        pass
 
     context = {
         'segment': 'campaigns',

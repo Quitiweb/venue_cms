@@ -12,6 +12,7 @@ urlpatterns = [
     path('update/<str:model>/<int:pk>', views.update, name='update_model'),
     path('campaigns', views.campaigns, name='campaigns'),
     path('venues', views.venues, name='venues'),
+    path('washrooms', views.washrooms, name='washrooms'),
     path('faucets', views.faucets, name='faucets'),
     path('media', views.media, name='media'),
     path('reporting', views.reporting, name='reporting'),

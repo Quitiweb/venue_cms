@@ -7,7 +7,7 @@ class Campaign(models.Model):
     name = models.CharField(max_length=100)
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
-    media_file = models.FileField(blank=True, null=True)
+    media = models.ManyToManyField('Media')
     venues = models.ForeignKey('Venue', on_delete=models.CASCADE, null=True)
     washroom_groups = models.ForeignKey('Washroom', on_delete=models.CASCADE, null=True)
     owner = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL'), on_delete=models.CASCADE)
@@ -25,7 +25,10 @@ class Venue(models.Model):
     state = models.CharField(max_length=100, blank=True, null=True)
     city = models.CharField(max_length=100, blank=True, null=True)
 
-    playlist = models.CharField(max_length=100, blank=True, null=True)
+    playlist = models.IntegerField(
+        default=0, blank=True, null=True,
+        help_text='This field is auto-filled with the number of related Campaigns'
+    )
     owner = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL'), on_delete=models.CASCADE)
 
     ad_approver = models.CharField(max_length=100, blank=True, null=True)
@@ -45,7 +48,18 @@ class Venue(models.Model):
 
 
 class Washroom(models.Model):
-    gender = models.CharField(max_length=25)
+    GENDERS = (
+        ('FAMILY', 'Family'),
+        ('FEMALE', 'Female'),
+        ('MALE', 'Male'),
+    )
+    GENDERS_DEFAULT = 'FAMILY'
+
+    gender = models.CharField(
+        max_length=25,
+        choices=GENDERS,
+        default=GENDERS_DEFAULT
+    )
     name = models.CharField(max_length=100)
     group_association = models.CharField(max_length=50)
     faucets = models.ForeignKey('Faucet', on_delete=models.CASCADE)
@@ -66,11 +80,24 @@ class Faucet(models.Model):
 
 
 class Media(models.Model):
+    TYPE = (
+        ('VIDEO', 'Video'),
+        ('PHOTO', 'Photo'),
+    )
+    TYPE_DEFAULT = 'VIDEO'
+
     name = models.CharField(max_length=100)
-    campaign = models.ForeignKey("Campaign", on_delete=models.CASCADE)
     date_uploaded = models.DateTimeField(auto_now_add=True)
-    type = models.CharField(max_length=50)
+    type = models.CharField(
+        max_length=25,
+        choices=TYPE,
+        default=TYPE_DEFAULT
+    )
     size = models.IntegerField(null=True)
+
+    owner = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL'),
+                              on_delete=models.CASCADE,
+                              null=True)
 
     def __str__(self):
         return str(self.name) if self.name else "-"

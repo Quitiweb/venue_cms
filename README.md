@@ -46,17 +46,19 @@
 - [ ] Plus icon button for add new records (like Carlos design)
 
 ### OTHER
-- [ ] Faucets.Status - Online / Offline
-- [ ] Campaign.media es una relación con Media
-- [ ] Faucets.playlist from Campaign.media
-- [ ] Media.Typo: Video or Photo
-- [ ] Add Owner field to MEDIA model
-- [ ] Venues.playlist is an integer field with a `len(Campaigns.objects.all())`
-- [ ] Washrooms.gender: Male, Female, Family
-- [ ] Add Washrooms to sidebar
+- [x] `Campaign.media` es una relación ManyToMany con `Media`
+- [x] `Media.Type`: Video or Photo
+- [x] Add Owner field to `MEDIA` model
+- [x] `Venues.playlist` is an integer field with a `len(Campaigns.objects.all())`
+- [x] `Washrooms.gender`: Male, Female, Family
+- [x] Add `Washrooms` to sidebar
 - [ ] Mount the API using `ngrok`
 
+### Pending points after develop the API with Carlos
+- [ ] `Faucets.playlist` from `Campaign.media`
+- [ ] `Faucets.Status` - Online / Offline
 
-### Dev Notes
+
+## Dev Notes
 - Material Dashboard revamp:
     - `apps.home.config.py` (I've deleted this. It looks that it works right)

@@ -10,7 +10,7 @@ class CampaignForm(forms.ModelForm):
     class Meta:
         model = models.Campaign
         fields = ('name', 'start_date', 'end_date', 'venues', 'washroom_groups',
-                  'media_file', 'owner')
+                  'media', 'owner')
 
 
 class VenueForm(forms.ModelForm):
@@ -19,9 +19,11 @@ class VenueForm(forms.ModelForm):
 
     class Meta:
         model = models.Venue
-        fields = ('name', 'address1', 'address2', 'country', 'state', 'city', 'playlist',
-                  'owner', 'ad_approver', 'phone', 'email', 'contract_start', 'contract_end',
-                  'loop_size')
+        fields = (
+            'name', 'address1', 'address2', 'country', 'state', 'city',
+            'owner', 'ad_approver', 'phone', 'email', 'contract_start',
+            'contract_end', 'loop_size'
+        )
 
 
 class WashroomForm(forms.ModelForm):
@@ -37,6 +39,7 @@ class FaucetForm(forms.ModelForm):
 
 
 class MediaForm(forms.ModelForm):
+
     class Meta:
         model = models.Media
-        fields = ('name', 'campaign', 'type', 'size')
+        fields = ('name', 'type', 'size')
