@@ -30,6 +30,7 @@
 - [ ] Notifications: saving, updating and deleting
 - [ ] Notifications: Are you sure do you want to Delete?
 - [ ] Error messages: required fields
+- [ ] Error message in Venues related to Phone number!
 - [ ] error / info / warning messages
 
 ### ADMIN
@@ -40,18 +41,20 @@
 - [ ] Filter Campaigns by AvnoUser
 - [ ] User Admin & AVNO Admin sections in sidebar
 
-### VISUAL NOTES
-- [ ] Blue colour instead of purple (same as the login in the doc)
-- [ ] Choose dates from Calendar
-- [ ] Plus icon button for add new records (like Carlos design)
-
-### OTHER
+### HOME OBJECTS
 - [x] `Campaign.media` es una relación ManyToMany con `Media`
 - [x] `Media.Type`: Video or Photo
 - [x] Add Owner field to `MEDIA` model
 - [x] `Venues.playlist` is an integer field with a `len(Campaigns.objects.all())`
 - [x] `Washrooms.gender`: Male, Female, Family
 - [x] Add `Washrooms` to sidebar
+
+### VISUAL NOTES
+- [ ] Blue colour instead of purple (same as the login in the doc)
+- [ ] Choose dates from Calendar
+- [ ] Plus icon button for add new records (like Carlos design)
+
+### OTHER
 - [ ] Mount the API using `ngrok`
 
 ### Pending points after develop the API with Carlos
