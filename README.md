@@ -26,11 +26,37 @@
 - [x] Edits
 - [x] HTML template for EDITs (or maybe one for each)
 - [x] EDIT Forms
-- [ ] Administration section
+- [x] Administration section
 - [ ] Notifications: saving, updating and deleting
+- [ ] Notifications: Are you sure do you want to Delete?
 - [ ] Error messages: required fields
+- [ ] error / info / warning messages
 
-### Notes
+### ADMIN
+- [ ] SuperUser or AvnoUser
+- [ ] if SuperUser then: you can see Admin buttons
+- [ ] elif AvnoUser then: you don't see Admin
+- [ ] Only SuperUsers can create users
+- [ ] Filter Campaigns by AvnoUser
+- [ ] User Admin & AVNO Admin sections in sidebar
 
+### VISUAL NOTES
+- [ ] Blue colour instead of purple (same as the login in the doc)
+- [ ] Choose dates from Calendar
+- [ ] Plus icon button for add new records (like Carlos design)
+
+### OTHER
+- [ ] Faucets.Status - Online / Offline
+- [ ] Campaign.media es una relación con Media
+- [ ] Faucets.playlist from Campaign.media
+- [ ] Media.Typo: Video or Photo
+- [ ] Add Owner field to MEDIA model
+- [ ] Venues.playlist is an integer field with a `len(Campaigns.objects.all())`
+- [ ] Washrooms.gender: Male, Female, Family
+- [ ] Add Washrooms to sidebar
+- [ ] Mount the API using `ngrok`
+
+
+### Dev Notes
 - Material Dashboard revamp:
     - `apps.home.config.py` (I've deleted this. It looks that it works right)
