@@ -7,7 +7,6 @@ class Campaign(models.Model):
     name = models.CharField(max_length=100)
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
-    media = models.ManyToManyField('Media')
     venues = models.ForeignKey('Venue', on_delete=models.CASCADE, null=True)
     washroom_groups = models.ForeignKey('Washroom', on_delete=models.CASCADE, null=True)
     owner = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL'), on_delete=models.CASCADE)
@@ -87,6 +86,8 @@ class Media(models.Model):
     TYPE_DEFAULT = 'VIDEO'
 
     name = models.CharField(max_length=100)
+    campaign = models.ForeignKey(
+        "Campaign", on_delete=models.CASCADE, null=True)
     date_uploaded = models.DateTimeField(auto_now_add=True)
     type = models.CharField(
         max_length=25,

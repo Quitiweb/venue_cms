@@ -9,8 +9,7 @@ class CampaignForm(forms.ModelForm):
 
     class Meta:
         model = models.Campaign
-        fields = ('name', 'start_date', 'end_date', 'venues', 'washroom_groups',
-                  'media', 'owner')
+        fields = ('name', 'start_date', 'end_date', 'venues', 'washroom_groups', 'owner')
 
 
 class VenueForm(forms.ModelForm):
@@ -39,7 +38,6 @@ class FaucetForm(forms.ModelForm):
 
 
 class MediaForm(forms.ModelForm):
-
     class Meta:
         model = models.Media
-        fields = ('name', 'type', 'size')
+        fields = ('name', 'campaign', 'type', 'size')
