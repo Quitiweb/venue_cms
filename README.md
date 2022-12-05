@@ -65,3 +65,4 @@
 ## Dev Notes
 - Material Dashboard revamp:
     - `apps.home.config.py` (I've deleted this. It looks that it works right)
+- Replaced Purple: #9124a3 by Blue: #064cbd (background buttons and cards)
