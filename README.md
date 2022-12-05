@@ -50,7 +50,7 @@
 - [x] Add `Washrooms` to sidebar
 
 ### VISUAL NOTES
-- [ ] Blue colour instead of purple (same as the login in the doc)
+- [X] Blue colour instead of purple (same as the login in the doc)
 - [ ] Choose dates from Calendar
 - [ ] Plus icon button for add new records (like Carlos design)
 

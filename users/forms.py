@@ -6,5 +6,5 @@ from users.models import Account
 class AccountForm(forms.ModelForm):
     class Meta:
         model = Account
-        fields = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'is_active',
-                  'phone', 'password')
+        fields = ('username', 'first_name', 'last_name', 'email', 'phone',
+                  'is_superuser', 'avno_user', 'is_active', 'password')
