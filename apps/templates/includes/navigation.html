@@ -20,7 +20,7 @@
             <a href="{% url 'new_record' model=segment %}">
               {% if segment == 'administration' %}
                 <button class="btn btn-primary btn-block">New User</button>
-              {% else %}
+              {% elif segment in 'campaigns, venues, washrooms, faucets, media' %}
                 <button class="btn btn-primary btn-block">New {{ segment }}</button>
               {% endif %}
             </a>
