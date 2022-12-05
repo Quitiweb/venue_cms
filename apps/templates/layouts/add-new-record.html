@@ -15,10 +15,22 @@
             <h4 class="card-title">{{ segment }}</h4>
           </div>
 
-          <form action="{{ segment }}/new_record" method="post">
+          <form action="/add/{{ segment }}/new_record" method="post">
             {% csrf_token %}
 
             <div class="card-body">
+
+              {% if form.errors %}
+                <div class="alert alert-danger">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <i class="material-icons">close</i>
+                  </button>
+                  <span>
+                    <b> Warning - </b> {{ form.errors }}
+                  </span>
+                </div>
+              {% endif %}
+
               <div class="table-responsive">
                   <table class="table">
                     <tbody>
@@ -26,6 +38,7 @@
                     </tbody>
                   </table>
               </div>
+
             </div>
 
             <button class="btn btn-primary btn-block" type="submit">Save</button>

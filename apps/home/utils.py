@@ -1,6 +1,6 @@
 from apps.home import models, forms
-from users.forms import AccountForm
-from users.models import Account
+from users.forms import UserAdminForm, AvnoAdminForm
+from users.models import Account, UserAdmin
 
 
 def get_model_from_segment(segment=None):
@@ -14,7 +14,9 @@ def get_model_from_segment(segment=None):
         return models.Faucet
     if segment == 'media':
         return models.Media
-    if segment == 'administration':
+    if segment == 'user_admin':
+        return UserAdmin
+    if segment == 'avno_admin':
         return Account
 
 
@@ -29,5 +31,7 @@ def get_form_from_segment(segment=None):
         return forms.FaucetForm
     if segment == 'media':
         return forms.MediaForm
-    if segment == 'administration':
-        return AccountForm
+    if segment == 'user_admin':
+        return UserAdminForm
+    if segment == 'avno_admin':
+        return AvnoAdminForm

@@ -9,7 +9,12 @@ class Account(AbstractUser):
     phone = models.CharField(validators=[phone_regex], max_length=17, blank=True, null=True,
                              help_text="+34999999999")
     date_created = models.DateTimeField(auto_now_add=True)
-    avno_user = models.BooleanField(
+    is_avno = models.BooleanField(
+        "avno user",
         default=False,
         help_text="Designates whether this user should be treated as an AVNO user."
     )
+
+
+class UserAdmin(Account):
+    avno_user = models.CharField(default='', max_length=50)

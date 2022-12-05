@@ -1,4 +1,5 @@
 from django import template
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -6,7 +7,7 @@ from django.template import loader
 from django.urls import reverse
 
 from apps.home import models, utils
-from users.models import Account
+from users.models import Account, UserAdmin
 
 
 @login_required(login_url="/login/")
@@ -32,27 +33,33 @@ def update(request, model, pk):
 
 @login_required(login_url="/login/")
 def create_new_record(request, model):
+    loader_template = loader.get_template('layouts/add-new-record.html')
+    form_object = utils.get_form_from_segment(model)
+
     if not model:
         return HttpResponseRedirect(reverse('index'))
 
+    if request.method == 'GET':
+        context = {
+            'segment': model,
+            'form': form_object
+        }
+        return HttpResponse(loader_template.render(context, request))
+
     if request.method == 'POST':
-        form_object = utils.get_form_from_segment(model)
         form = form_object(request.POST)
 
         if form.is_valid():
-            form.save()
-
-    return HttpResponseRedirect(reverse(model))
-
-
-@login_required(login_url="/login/")
-def new_record(request, model):
-    loader_template = loader.get_template('layouts/add-new-record.html')
-    context = {
-        'segment': model,
-        'form': utils.get_form_from_segment(model)
-    }
-    return HttpResponse(loader_template.render(context, request))
+            user = form.save(commit=True)
+            user.save()
+            # messages.success(request, 'user_admin with name {} added.'.format(user.username))
+            return HttpResponseRedirect(reverse(model))
+        else:
+            context = {
+                'segment': model,
+                'form': form
+            }
+            return HttpResponse(loader_template.render(context, request))
 
 
 @login_required(login_url="/login/")
@@ -77,7 +84,31 @@ def profile(request):
 
 
 @login_required(login_url="/login/")
-def administration(request):
+def user_admin(request):
+    html_template = loader.get_template('layouts/base-tables.html')
+    table_body = []
+    table_records = {}
+
+    if request.method == 'GET':
+        for a in UserAdmin.objects.all():
+            table_records['col1'] = a.email
+            table_records['col2'] = a.avno_user
+            table_records['col3'] = a.is_active
+            table_records['col4'] = a.date_created
+            table_records['Action'] = a.id
+            table_body.append(table_records.copy())
+
+    context = {
+        'segment': 'user_admin',
+        'table_header': ['Username', 'AVNO', 'Active', 'Date Created', 'Action'],
+        'table_body': table_body,
+    }
+
+    return HttpResponse(html_template.render(context, request))
+
+
+@login_required(login_url="/login/")
+def avno_admin(request):
     html_template = loader.get_template('layouts/base-tables.html')
     table_body = []
     table_records = {}
@@ -85,15 +116,15 @@ def administration(request):
     if request.method == 'GET':
         for a in Account.objects.all():
             table_records['col1'] = a.email
-            table_records['col2'] = a.is_staff
-            table_records['col3'] = a.date_created
-            table_records['col4'] = a.is_active
+            table_records['col2'] = a.is_avno
+            table_records['col3'] = a.is_active
+            table_records['col4'] = a.date_created
             table_records['Action'] = a.id
             table_body.append(table_records.copy())
 
     context = {
-        'segment': 'administration',
-        'table_header': ['Username', 'AVNO', 'Date Created', 'Active', 'Action'],
+        'segment': 'avno_admin',
+        'table_header': ['Username', 'AVNO', 'Active', 'Date Created', 'Action'],
         'table_body': table_body,
     }
 

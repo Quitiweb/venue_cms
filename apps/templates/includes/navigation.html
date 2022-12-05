@@ -17,8 +17,8 @@
       <ul class="navbar-nav">
         {% if segment not in 'index' %}
           <li>
-            <a href="{% url 'new_record' model=segment %}">
-              {% if segment == 'administration' %}
+            <a href="{% url 'add_new_record' model=segment %}">
+              {% if segment in 'user_admin, avno_admin' %}
                 <button class="btn btn-primary btn-block">New User</button>
               {% elif segment in 'campaigns, venues, washrooms, faucets, media' %}
                 <button class="btn btn-primary btn-block">New {{ segment }}</button>

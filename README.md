@@ -29,17 +29,18 @@
 - [x] Administration section
 - [ ] Notifications: saving, updating and deleting
 - [ ] Notifications: Are you sure do you want to Delete?
-- [ ] Error messages: required fields
-- [ ] Error message in Venues related to Phone number!
-- [ ] error / info / warning messages
+- [x] Error messages: required fields
+- [x] Error message in Venues related to Phone number!
+- [x] error / info / warning messages
 
 ### ADMIN
-- [ ] SuperUser or AvnoUser
-- [ ] if SuperUser then: you can see Admin buttons
-- [ ] elif AvnoUser then: you don't see Admin
-- [ ] Only SuperUsers can create users
+- [x] SuperUser or AvnoUser
+- [x] if SuperUser then: you can see Admin buttons
+- [x] elif AvnoUser then: you don't see Admin
+- [x] Only SuperUsers can create users
 - [ ] Filter Campaigns by AvnoUser
-- [ ] User Admin & AVNO Admin sections in sidebar
+- [x] User Admin & AVNO Admin sections in sidebar
+- [ ] Password field
 
 ### HOME OBJECTS
 - [x] `Campaign.media` es una relación ManyToMany con `Media`
@@ -53,6 +54,7 @@
 - [X] Blue colour instead of purple (same as the login in the doc)
 - [ ] Choose dates from Calendar
 - [ ] Plus icon button for add new records (like Carlos design)
+- [ ] True | False (Green | Red) - Give it some format in table
 
 ### OTHER
 - [ ] Mount the API using `ngrok`
