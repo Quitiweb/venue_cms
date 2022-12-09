@@ -8,7 +8,8 @@ class Campaign(models.Model):
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
     venues = models.ForeignKey('Venue', on_delete=models.CASCADE, null=True)
-    washroom_groups = models.ForeignKey('Washroom', on_delete=models.CASCADE, null=True)
+    washroom_groups = models.ForeignKey(
+        'Washroom', on_delete=models.CASCADE, null=True, related_name='campaigns')
     owner = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL'), on_delete=models.CASCADE)
 
     def __str__(self):
@@ -28,8 +29,6 @@ class Venue(models.Model):
         default=0, blank=True, null=True,
         help_text='This field is auto-filled with the number of related Campaigns'
     )
-    owner = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL'), on_delete=models.CASCADE)
-
     ad_approver = models.CharField(max_length=100, blank=True, null=True)
     phone_regex = RegexValidator(
         regex=r'^\+?1?\d{9,15}$', message="Format: '+999999999'. Max 15 digits.")
@@ -41,6 +40,8 @@ class Venue(models.Model):
 
     loop_size = models.IntegerField(default=0)
     max_ad_time = models.TimeField(blank=True, null=True)
+
+    owner = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL'), on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.name) if self.name else "-"
@@ -61,7 +62,7 @@ class Washroom(models.Model):
     )
     name = models.CharField(max_length=100)
     group_association = models.CharField(max_length=50)
-    faucets = models.ForeignKey('Faucet', on_delete=models.CASCADE)
+    faucets = models.ForeignKey('Faucet', on_delete=models.CASCADE, related_name='washrooms')
 
     def __str__(self):
         return str(self.name) if self.name else "-"

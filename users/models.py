@@ -17,4 +17,8 @@ class Account(AbstractUser):
 
 
 class UserAdmin(Account):
-    avno_user = models.CharField(default='', max_length=50)
+    avno_user = models.CharField(default='', max_length=150)
+
+    class Meta:
+        verbose_name = 'User Admin'
+        verbose_name_plural = 'User Admin'

@@ -6,8 +6,26 @@ from django.shortcuts import get_object_or_404
 from django.template import loader
 from django.urls import reverse
 
-from apps.home import models, utils
-from users.models import Account, UserAdmin
+from apps.home import utils
+
+
+@login_required(login_url="/login/")
+def show(request, model):
+    html_template = loader.get_template('layouts/base-tables.html')
+    table_body = []
+
+    if request.method == 'GET':
+        cobjects = utils.get_objects_from_segment(model, request.user)
+        table_body = utils.get_table_body_from_objects(cobjects, model)
+
+    context = {
+        'segment': model,
+        'table_subtitle': '',
+        'table_header': utils.get_header_from_segment(model),
+        'table_body': table_body,
+    }
+
+    return HttpResponse(html_template.render(context, request))
 
 
 @login_required(login_url="/login/")
@@ -21,7 +39,7 @@ def update(request, model, pk):
         if form.is_valid():
             form.save()
 
-        return HttpResponseRedirect(reverse(model))
+        return HttpResponseRedirect(reverse('show_model', kwargs={'model': model}))
 
     form = form_object(instance=instance)
     context = {
@@ -35,9 +53,6 @@ def update(request, model, pk):
 def create_new_record(request, model):
     loader_template = loader.get_template('layouts/add-new-record.html')
     form_object = utils.get_form_from_segment(model)
-
-    if not model:
-        return HttpResponseRedirect(reverse('index'))
 
     if request.method == 'GET':
         context = {
@@ -53,7 +68,7 @@ def create_new_record(request, model):
             user = form.save(commit=True)
             user.save()
             # messages.success(request, 'user_admin with name {} added.'.format(user.username))
-            return HttpResponseRedirect(reverse(model))
+            return HttpResponseRedirect(reverse('show_model', kwargs={'model': model}))
         else:
             context = {
                 'segment': model,
@@ -64,16 +79,13 @@ def create_new_record(request, model):
 
 @login_required(login_url="/login/")
 def delete(request, model, pk):
-    if not model:
-        return HttpResponseRedirect(reverse('index'))
-
     model_object = utils.get_model_from_segment(model)
     record_to_delete = model_object.objects.get(id=pk)
 
     if record_to_delete:
         record_to_delete.delete()
 
-    return HttpResponseRedirect(reverse(model))
+    return HttpResponseRedirect(reverse('show_model', kwargs={'model': model}))
 
 
 @login_required(login_url="/login/")
@@ -84,177 +96,9 @@ def profile(request):
 
 
 @login_required(login_url="/login/")
-def user_admin(request):
-    html_template = loader.get_template('layouts/base-tables.html')
-    table_body = []
-    table_records = {}
-
-    if request.method == 'GET':
-        for a in UserAdmin.objects.all():
-            table_records['col1'] = a.email
-            table_records['col2'] = a.avno_user
-            table_records['col3'] = a.is_active
-            table_records['col4'] = a.date_created
-            table_records['Action'] = a.id
-            table_body.append(table_records.copy())
-
-    context = {
-        'segment': 'user_admin',
-        'table_header': ['Username', 'AVNO', 'Active', 'Date Created', 'Action'],
-        'table_body': table_body,
-    }
-
-    return HttpResponse(html_template.render(context, request))
-
-
-@login_required(login_url="/login/")
-def avno_admin(request):
-    html_template = loader.get_template('layouts/base-tables.html')
-    table_body = []
-    table_records = {}
-
-    if request.method == 'GET':
-        for a in Account.objects.all():
-            table_records['col1'] = a.email
-            table_records['col2'] = a.is_avno
-            table_records['col3'] = a.is_active
-            table_records['col4'] = a.date_created
-            table_records['Action'] = a.id
-            table_body.append(table_records.copy())
-
-    context = {
-        'segment': 'avno_admin',
-        'table_header': ['Username', 'AVNO', 'Active', 'Date Created', 'Action'],
-        'table_body': table_body,
-    }
-
-    return HttpResponse(html_template.render(context, request))
-
-
-@login_required(login_url="/login/")
 def reporting(request):
     html_template = loader.get_template('home/ui-notifications.html')
     context = {'segment': 'reporting'}
-    return HttpResponse(html_template.render(context, request))
-
-
-@login_required(login_url="/login/")
-def media(request):
-    html_template = loader.get_template('layouts/base-tables.html')
-    table_body = []
-    table_records = {}
-
-    if request.method == 'GET':
-        for m in models.Media.objects.all():
-            table_records['col1'] = m.name
-            table_records['col2'] = m.date_uploaded
-            table_records['col3'] = m.type
-            table_records['col4'] = m.size
-            table_records['Action'] = m.id
-            table_body.append(table_records.copy())
-
-    context = {
-        'segment': 'media',
-        'table_header': ['Media Name', 'Date Uploaded', 'Type', 'Size', 'Action'],
-        'table_body': table_body,
-    }
-
-    return HttpResponse(html_template.render(context, request))
-
-
-@login_required(login_url="/login/")
-def faucets(request):
-    html_template = loader.get_template('layouts/base-tables.html')
-    table_body = []
-    table_records = {}
-
-    if request.method == 'GET':
-        for f in models.Faucet.objects.all():
-            table_records['col1'] = f.name
-            table_records['col2'] = f.mac
-            table_records['col3'] = f.ip_address
-            table_records['col4'] = f.status
-            table_records['Action'] = f.id
-            table_body.append(table_records.copy())
-
-    context = {
-        'segment': 'faucets',
-        'table_header': ['Faucet Name', 'MAC', 'IP Address', 'Status', 'Action'],
-        'table_body': table_body,
-    }
-
-    return HttpResponse(html_template.render(context, request))
-
-
-@login_required(login_url="/login/")
-def washrooms(request):
-    html_template = loader.get_template('layouts/base-tables.html')
-    table_body = []
-    table_records = {}
-
-    if request.method == 'GET':
-        for w in models.Washroom.objects.all():
-            table_records['col1'] = w.gender
-            table_records['col2'] = w.name
-            table_records['col3'] = w.group_association
-            table_records['col4'] = w.faucets
-            table_records['Action'] = w.id
-            table_body.append(table_records.copy())
-
-    context = {
-        'segment': 'washrooms',
-        'table_header': ['Gender', 'Name', 'Group Association', 'Faucets', 'Action'],
-        'table_body': table_body,
-    }
-
-    return HttpResponse(html_template.render(context, request))
-
-
-@login_required(login_url="/login/")
-def venues(request):
-    html_template = loader.get_template('layouts/base-tables.html')
-    table_body = []
-    table_records = {}
-
-    if request.method == 'GET':
-        for v in models.Venue.objects.all():
-            table_records['col1'] = v.name
-            table_records['col2'] = v.country
-            table_records['col3'] = v.state
-            table_records['Action'] = v.id
-            table_body.append(table_records.copy())
-
-    context = {
-        'segment': 'venues',
-        'table_header': ['Venue Name', 'Country', 'State', 'Action'],
-        'table_body': table_body,
-    }
-
-    return HttpResponse(html_template.render(context, request))
-
-
-@login_required(login_url="/login/")
-def campaigns(request):
-    html_template = loader.get_template('layouts/base-tables.html')
-    table_body = []
-    table_records = {}
-
-    if request.method == 'GET':
-        all_campaigns = models.Campaign.objects.all()
-        for c in all_campaigns:
-            table_records['col1'] = c.name
-            table_records['col2'] = c.start_date
-            table_records['col3'] = c.end_date
-            table_records['Action'] = c.id
-            table_body.append(table_records.copy())
-
-    context = {
-        'segment': 'campaigns',
-        'table_subtitle': '',
-        'table_header': ['Campaign Name', 'Date Created', 'Date Expires', 'Action'],
-        'table_body': table_body,
-    }
-
     return HttpResponse(html_template.render(context, request))
 
 

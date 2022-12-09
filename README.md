@@ -38,9 +38,10 @@
 - [x] if SuperUser then: you can see Admin buttons
 - [x] elif AvnoUser then: you don't see Admin
 - [x] Only SuperUsers can create users
-- [ ] Filter Campaigns by AvnoUser
+- [x] Filter Models by AvnoUser
 - [x] User Admin & AVNO Admin sections in sidebar
-- [ ] Password field
+- [ ] Password field - Fix
+- [ ] Add New record when No Avno user = Owner field
 
 ### HOME OBJECTS
 - [x] `Campaign.media` es una relación ManyToMany con `Media`
