@@ -31,6 +31,12 @@ class WashroomForm(forms.ModelForm):
         fields = ('gender', 'name', 'group_association', 'venue', )
 
 
+class WashroomGroupsForm(forms.ModelForm):
+    class Meta:
+        model = models.WashroomGroups
+        fields = ('washrooms', )
+
+
 class FaucetForm(forms.ModelForm):
     class Meta:
         model = models.Faucet

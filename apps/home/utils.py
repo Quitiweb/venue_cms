@@ -23,6 +23,12 @@ def get_table_records_from_object(obj, segment):
             faucets_list = [f.name for f in obj.faucets.all()]
         faucets = faucets_list if faucets_list else "not assigned"
         table_records['col4'] = faucets
+    if segment == 'washroom-groups':
+        wlist = []
+        if len(obj.washrooms.all()) > 0:
+            wlist = [f.name for f in obj.washrooms.all()]
+        wc = wlist if wlist else "not assigned"
+        table_records['col1'] = wc
     if segment == 'faucets':
         table_records['col1'] = obj.name
         table_records['col2'] = obj.mac
@@ -79,7 +85,7 @@ def get_objects_from_segment(segment, user):
 
     if segment in ['campaigns', 'venues', 'media']:
         return model.objects.filter(owner__username=avno_username)
-    if segment in ['washrooms']:
+    if segment in ['washrooms', 'washroom-groups']:
         return model.objects.filter(campaigns__owner__username=avno_username)
     if segment in ['faucets']:
         return model.objects.filter(washrooms__campaigns__owner__username=avno_username)
@@ -92,6 +98,8 @@ def get_header_from_segment(segment=None):
         return ['Venue Name', 'Country', 'State', 'Action']
     if segment == 'washrooms':
         return ['Gender', 'Name', 'Group Association', 'Faucets', 'Action']
+    if segment == 'washroom-groups':
+        return ['Washrooms', ]
     if segment == 'faucets':
         return ['Faucet Name', 'MAC', 'IP Address', 'Status', 'Action']
     if segment == 'media':
@@ -107,6 +115,8 @@ def get_model_from_segment(segment=None):
         return models.Venue
     if segment == 'washrooms':
         return models.Washroom
+    if segment == 'washroom-groups':
+        return models.WashroomGroups
     if segment == 'faucets':
         return models.Faucet
     if segment == 'media':
@@ -124,6 +134,8 @@ def get_form_from_segment(segment=None):
         return forms.VenueForm
     if segment == 'washrooms':
         return forms.WashroomForm
+    if segment == 'washroom-groups':
+        return forms.WashroomGroupsForm
     if segment == 'faucets':
         return forms.FaucetForm
     if segment == 'media':

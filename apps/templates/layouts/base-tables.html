@@ -43,10 +43,17 @@
                 </tbody>
 
               </table>
+
             </div>
           </div>
-
         </div>
+
+        {% if segment in 'washrooms' %}
+          <a href="{% url 'add_new_record' model='washroom-groups' %}">
+            <button class="btn btn-primary btn-block">New Washroom Group</button>
+          </a>
+        {% endif %}
+
       </div>
   </div>
 

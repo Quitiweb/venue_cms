@@ -50,6 +50,13 @@ class Venue(models.Model):
 class WashroomGroups(models.Model):
     washrooms = models.ManyToManyField(to='Washroom', related_name='washroom_groups')
 
+    def __str__(self):
+        wlist = []
+        if len(self.washrooms.all()) > 0:
+            wlist = [f.name for f in self.washrooms.all()]
+        wc = wlist if wlist else "not assigned"
+        return str(wc)
+
 
 class Washroom(models.Model):
     GENDERS = (
