@@ -38,6 +38,8 @@ class FaucetForm(forms.ModelForm):
 
 
 class MediaForm(forms.ModelForm):
+    # file = forms.FileField()
+
     class Meta:
         model = models.Media
-        fields = ('name', 'campaign', 'type', 'size')
+        fields = ('name', 'campaign', 'type', 'file', )

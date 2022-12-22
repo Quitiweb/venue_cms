@@ -28,8 +28,13 @@ SECRET_KEY = config('SECRET_KEY', default='')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '.eu.ngrok.io', 'cc3b-66-81-178-238.eu.ngrok.io', 'localhost', '127.0.0.1',
+]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://cc3b-66-81-178-238.eu.ngrok.io',
+]
 
 # Application definition
 INSTALLED_APPS = [

@@ -87,6 +87,9 @@ class Media(models.Model):
     TYPE_DEFAULT = 'VIDEO'
 
     name = models.CharField(max_length=100)
+
+    file = models.FileField(upload_to='media/', null=True, blank=True)
+
     campaign = models.ForeignKey(
         "Campaign", on_delete=models.CASCADE, null=True)
     date_uploaded = models.DateTimeField(auto_now_add=True)
@@ -95,11 +98,6 @@ class Media(models.Model):
         choices=TYPE,
         default=TYPE_DEFAULT
     )
-    size = models.IntegerField(null=True)
-
-    owner = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL'),
-                              on_delete=models.CASCADE,
-                              null=True)
 
     def __str__(self):
         return str(self.name) if self.name else "-"

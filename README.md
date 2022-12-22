@@ -58,7 +58,7 @@
 - [ ] True | False (Green | Red) - Give it some format in table
 
 ### OTHER
-- [ ] Mount the API using `ngrok`
+- [x] Mount the API using `ngrok`
 
 ### Pending points after develop the API with Carlos
 - [ ] `Faucets.playlist` from `Campaign.media`

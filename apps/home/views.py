@@ -59,10 +59,11 @@ def create_new_record(request, model):
             'segment': model,
             'form': form_object
         }
-        return HttpResponse(loader_template.render(context, request))
-
-    if request.method == 'POST':
-        form = form_object(request.POST)
+    else:
+        if request.FILES:
+            form = form_object(request.POST, request.FILES)
+        else:
+            form = form_object(request.POST)
 
         if form.is_valid():
             user = form.save(commit=True)
@@ -74,7 +75,8 @@ def create_new_record(request, model):
                 'segment': model,
                 'form': form
             }
-            return HttpResponse(loader_template.render(context, request))
+
+    return HttpResponse(loader_template.render(context, request))
 
 
 @login_required(login_url="/login/")

@@ -28,7 +28,7 @@ def get_table_records_from_object(obj, segment):
         table_records['col1'] = obj.name
         table_records['col2'] = obj.date_uploaded
         table_records['col3'] = obj.type
-        table_records['col4'] = obj.size
+        table_records['col4'] = obj.file.size if obj.file else 0
     if segment == 'user-admin':
         table_records['col1'] = obj.username
         table_records['col2'] = obj.email
@@ -108,7 +108,7 @@ def get_model_from_segment(segment=None):
     if segment == 'media':
         return models.Media
     if segment == 'user-admin':
-        return UserAdmin
+        return admin_user
     if segment == 'avno-admin':
         return Account
 

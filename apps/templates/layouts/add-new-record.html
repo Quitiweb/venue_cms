@@ -15,7 +15,7 @@
             <h4 class="card-title">{{ segment }}</h4>
           </div>
 
-          <form action="/add/{{ segment }}/new_record" method="post">
+          <form enctype="multipart/form-data" action="/add/{{ segment }}/new_record" method="post">
             {% csrf_token %}
 
             <div class="card-body">
