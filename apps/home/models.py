@@ -9,7 +9,7 @@ class Campaign(models.Model):
     end_date = models.DateField(blank=True, null=True)
     venues = models.ForeignKey('Venue', on_delete=models.CASCADE, null=True)
     washroom_groups = models.ForeignKey(
-        'Washroom', on_delete=models.CASCADE, null=True, related_name='campaigns')
+        'WashroomGroups', on_delete=models.CASCADE, null=True, related_name='campaigns')
     owner = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL'), on_delete=models.CASCADE)
 
     def __str__(self):
@@ -47,6 +47,10 @@ class Venue(models.Model):
         return str(self.name) if self.name else "-"
 
 
+class WashroomGroups(models.Model):
+    washrooms = models.ManyToManyField(to='Washroom', related_name='washroom_groups')
+
+
 class Washroom(models.Model):
     GENDERS = (
         ('FAMILY', 'Family'),
@@ -62,7 +66,8 @@ class Washroom(models.Model):
     )
     name = models.CharField(max_length=100)
     group_association = models.CharField(max_length=50)
-    faucets = models.ForeignKey('Faucet', on_delete=models.CASCADE, related_name='washrooms')
+    venue = models.ForeignKey(
+        'Venue', on_delete=models.CASCADE, related_name='washrooms', null=True)
 
     def __str__(self):
         return str(self.name) if self.name else "-"
@@ -74,6 +79,9 @@ class Faucet(models.Model):
     ip_address = models.CharField(max_length=100)
     status = models.CharField(max_length=50)
     playlist = models.CharField(max_length=100)
+
+    washroom = models.ForeignKey(
+        'Washroom', on_delete=models.CASCADE, related_name='faucets', null=True)
 
     def __str__(self):
         return str(self.name) if self.name else "-"

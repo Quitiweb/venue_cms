@@ -18,7 +18,11 @@ def get_table_records_from_object(obj, segment):
         table_records['col1'] = obj.gender
         table_records['col2'] = obj.name
         table_records['col3'] = obj.group_association
-        table_records['col4'] = obj.faucets
+        faucets_list = []
+        if len(obj.faucets.all()) > 0:
+            faucets_list = [f.name for f in obj.faucets.all()]
+        faucets = faucets_list if faucets_list else "not assigned"
+        table_records['col4'] = faucets
     if segment == 'faucets':
         table_records['col1'] = obj.name
         table_records['col2'] = obj.mac

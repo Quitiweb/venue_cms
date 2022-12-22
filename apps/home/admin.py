@@ -4,5 +4,5 @@ from apps.home import models
 
 admin.site.register([
     models.Campaign, models.Venue, models.Washroom,
-    models.Faucet, models.Media,
+    models.Faucet, models.Media, models.WashroomGroups
 ])
