@@ -7,6 +7,8 @@ from django.template import loader
 from django.urls import reverse
 
 from apps.home import utils
+from apps.home.forms import CampaignVenueForm
+from apps.home.models import Campaign
 
 
 @login_required(login_url="/login/")
@@ -32,6 +34,7 @@ def show(request, model):
 def update(request, model, pk):
     loader_template = loader.get_template('layouts/update-record.html')
     instance = get_object_or_404(utils.get_model_from_segment(model), id=pk)
+
     form_object = utils.get_form_from_segment(model)
 
     if request.method == 'POST':
@@ -50,9 +53,9 @@ def update(request, model, pk):
 
 
 @login_required(login_url="/login/")
-def create_new_record(request, model):
-    loader_template = loader.get_template('layouts/add-new-record.html')
-    form_object = utils.get_form_from_segment(model)
+def create_new_campaign(request, model):
+    loader_template = loader.get_template('layouts/add-campaign.html')
+    form_object = CampaignVenueForm
 
     if request.method == 'GET':
         context = {
@@ -60,14 +63,48 @@ def create_new_record(request, model):
             'form': form_object
         }
     else:
+        form = form_object(request.POST)
+
+        if form.is_valid():
+            campaign = form.save(commit=False)
+            venue = campaign.venues.id
+
+            return HttpResponseRedirect(reverse('add_new_record', kwargs={
+                'model': model, 'venue': venue}))
+        else:
+            context = {
+                'segment': model,
+                'form': form
+            }
+
+    return HttpResponse(loader_template.render(context, request))
+
+
+@login_required(login_url="/login/")
+def create_new_record(request, model, venue=None):
+    loader_template = loader.get_template('layouts/add-new-record.html')
+    form_object = utils.get_form_from_segment(model, venue=venue)
+
+    if request.method == 'GET':
+        context = {
+            'segment': model,
+            'form': form_object,
+            'venue': venue
+        }
+    else:
         if request.FILES:
             form = form_object(request.POST, request.FILES)
+        elif venue:
+            form = form_object(request.POST)
+            instance = form.save(commit=False)
+            instance.venues = venue
+            instance.save()
         else:
             form = form_object(request.POST)
 
         if form.is_valid():
-            user = form.save(commit=True)
-            user.save()
+            obj = form.save(commit=True)
+            obj.save()
             # messages.success(request, 'user_admin with name {} added.'.format(user.username))
             return HttpResponseRedirect(reverse('show_model', kwargs={'model': model}))
         else:

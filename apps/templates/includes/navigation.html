@@ -17,13 +17,19 @@
       <ul class="navbar-nav">
         {% if segment not in 'index' %}
           <li>
-            <a href="{% url 'add_new_record' model=segment %}">
-              {% if segment in 'user-admin, avno-admin' %}
-                <button class="btn btn-primary btn-block">New User</button>
-              {% elif segment in 'campaigns, venues, washrooms, faucets, media' %}
+            {% if segment in 'campaigns' %}
+              <a href="{% url 'add_new_campaign' model=segment %}">
                 <button class="btn btn-primary btn-block">New {{ segment }}</button>
-              {% endif %}
-            </a>
+              </a>
+            {% else %}
+              <a href="{% url 'add_new_record' model=segment %}">
+                {% if segment in 'user-admin, avno-admin' %}
+                  <button class="btn btn-primary btn-block">New User</button>
+                {% elif segment in 'venues, washrooms, faucets, media' %}
+                  <button class="btn btn-primary btn-block">New {{ segment }}</button>
+                {% endif %}
+              </a>
+            {% endif %}
           </li>
         {% endif %}
         <li class="nav-item dropdown">

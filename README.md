@@ -60,7 +60,7 @@
 ### OTHER
 - [x] Mount the API using `ngrok`
 
-### Pending points after develop the API with Carlos
+### Pending points after develop the API with Carlos (MQTT)
 - [ ] `Faucets.playlist` from `Campaign.media`
 - [ ] `Faucets.Status` - Online / Offline
 
@@ -73,11 +73,11 @@
 
 # Pending points for 2023
 
-- [ ] A la hora de crear los grupos de baños (sé que esta parte no estaba pensada) me han comentado que se lían un poco al hacer los grupos, no les parece intuitiva. Tenemos que darle una pensada.
-- [ ] El registro de usuarios en la pantalla de login hay que quitarlo, los usuarios se crean desde la pantalla de usuarios por un usuario superadministrador.
-- [ ] En las campañas, al elegir un venue, solo debería mostrar los grupos que pertenecen a ese venue, no todos.
-- [ ] Dentro de las campañas, debería aparecer un apartado con los archivos multimedia de ese AVNO, así poder seleccionarlos al crear la campaña.
-- [ ] Aparte, han querido que viésemos una campaña en el grifo, pero esa parte no la tenemos aún.
+- [ ] A la hora de crear los grupos de baños (sé que esta parte no estaba pensada) me han comentado que se lían un poco al hacer los grupos, no les parece intuitiva. Tenemos que darle una pensada
+- [x] El registro de usuarios en la pantalla de login hay que quitarlo, los usuarios se crean desde la pantalla de usuarios por un usuario superadministrador
+- [ ] En las campañas, al elegir un venue, solo debería mostrar los grupos (de Washroom?) que pertenecen a ese venue, no todos
+- [ ] Dentro de las campañas, debería aparecer un apartado con los archivos multimedia de ese AVNO, así poder seleccionarlos al crear la campaña
+- [ ] Aparte, han querido que viésemos una campaña en el grifo, pero esa parte no la tenemos aún
 - [ ] Tenemos que hacer la parte MQTT
 
 

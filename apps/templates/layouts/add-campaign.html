@@ -15,26 +15,11 @@
             <h4 class="card-title">{{ segment }}</h4>
           </div>
 
-          {% if venue is not None %}
-            <form enctype="multipart/form-data" action="/add/{{ segment }}/new_record/{{ venue }}" method="post">
-          {% else %}
-            <form enctype="multipart/form-data" action="/add/{{ segment }}/new_record" method="post">
-          {% endif %}
-
+          <form enctype="multipart/form-data" action="/add/{{ segment }}/new_campaign" method="post">
             {% csrf_token %}
 
             <div class="card-body">
-
-              {% if form.errors %}
-                <div class="alert alert-danger">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <i class="material-icons">close</i>
-                  </button>
-                  <span>
-                    <b> Warning - </b> {{ form.errors }}
-                  </span>
-                </div>
-              {% endif %}
+              <p>Select the Venue for this Campaign and click Next button</p>
 
               <div class="table-responsive">
                   <table class="table">
@@ -46,7 +31,7 @@
 
             </div>
 
-            <button class="btn btn-primary btn-block" type="submit">Save</button>
+            <button class="btn btn-primary btn-block" type="submit">Next</button>
 
           </form>
         </div>
