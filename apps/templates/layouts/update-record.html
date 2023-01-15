@@ -38,4 +38,44 @@
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+<script>
+    $(document).ready(function() {
+        LoadWashrooms();
+    });
+
+    $('#id_venues').on('change', function(){
+        LoadWashrooms();
+    });
+
+    function LoadWashrooms()
+    {
+        var $id_venue = $('#id_venues').val();
+
+        $.ajax({
+            method: "GET",
+            url: "/get_washrooms/" + $id_venue,
+            dataType: 'json',
+            data: {},
+            success: function(data, status) {
+
+                $("#id_washroom_groups").empty();
+
+                var items = data['washroom_options'];
+
+                $.each(items, function(key, value) {
+                    $("#id_washroom_groups").append(
+                      $('<option>', {
+                        value: value.id,
+                        text: value.name
+                    }));
+                });
+
+            },
+            error: function(response) {
+
+            }
+        });
+    }
+</script>
+{% endblock javascripts %}

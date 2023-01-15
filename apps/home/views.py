@@ -54,7 +54,6 @@ def update(request, model, pk):
 @login_required(login_url="/login/")
 def get_washrooms(request, venue=None):
     if request.method == 'GET':
-        # venue = request.GET.get('venue')
         washroom_options = []
         if venue:
             washrooms = WashroomGroups.objects.filter(washrooms__venue=venue)
