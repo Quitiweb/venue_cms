@@ -51,6 +51,9 @@ class WashroomGroups(models.Model):
     washrooms = models.ManyToManyField(to='Washroom', related_name='washroom_groups')
 
     def __str__(self):
+        return self.get_washrooms()
+
+    def get_washrooms(self):
         wlist = []
         if len(self.washrooms.all()) > 0:
             wlist = [f.name for f in self.washrooms.all()]

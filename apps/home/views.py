@@ -1,14 +1,13 @@
 from django import template
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template import loader
 from django.urls import reverse
 
 from apps.home import utils
-from apps.home.forms import CampaignVenueForm
-from apps.home.models import Campaign
+from apps.home.models import WashroomGroups
 
 
 @login_required(login_url="/login/")
@@ -53,52 +52,37 @@ def update(request, model, pk):
 
 
 @login_required(login_url="/login/")
-def create_new_campaign(request, model):
-    loader_template = loader.get_template('layouts/add-campaign.html')
-    form_object = CampaignVenueForm
-
+def get_washrooms(request, venue=None):
     if request.method == 'GET':
-        context = {
-            'segment': model,
-            'form': form_object
+        # venue = request.GET.get('venue')
+        washroom_options = []
+        if venue:
+            washrooms = WashroomGroups.objects.filter(washrooms__venue=venue)
+            for w in washrooms:
+                washroom_options.append({
+                    'id': w.id,
+                    'name': w.get_washrooms()
+                })
+
+        data = {
+            'washroom_options': washroom_options,
         }
-    else:
-        form = form_object(request.POST)
-
-        if form.is_valid():
-            campaign = form.save(commit=False)
-            venue = campaign.venues.id
-
-            return HttpResponseRedirect(reverse('add_new_record', kwargs={
-                'model': model, 'venue': venue}))
-        else:
-            context = {
-                'segment': model,
-                'form': form
-            }
-
-    return HttpResponse(loader_template.render(context, request))
+        return JsonResponse(data)
 
 
 @login_required(login_url="/login/")
-def create_new_record(request, model, venue=None):
+def create_new_record(request, model):
     loader_template = loader.get_template('layouts/add-new-record.html')
-    form_object = utils.get_form_from_segment(model, venue=venue)
+    form_object = utils.get_form_from_segment(model)
 
     if request.method == 'GET':
         context = {
             'segment': model,
             'form': form_object,
-            'venue': venue
         }
     else:
         if request.FILES:
             form = form_object(request.POST, request.FILES)
-        elif venue:
-            form = form_object(request.POST)
-            instance = form.save(commit=False)
-            instance.venues = venue
-            instance.save()
         else:
             form = form_object(request.POST)
 

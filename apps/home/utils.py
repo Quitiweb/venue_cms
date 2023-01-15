@@ -127,11 +127,9 @@ def get_model_from_segment(segment=None):
         return Account
 
 
-def get_form_from_segment(segment=None, venue=None):
+def get_form_from_segment(segment=None):
     if segment == 'campaigns':
-        if venue:
-            return forms.CampaignForm(initial={'venues': venue}, venue=venue)
-        return forms.CampaignUpdateForm
+        return forms.CampaignForm
     if segment == 'venues':
         return forms.VenueForm
     if segment == 'washrooms':

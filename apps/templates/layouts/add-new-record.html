@@ -15,11 +15,7 @@
             <h4 class="card-title">{{ segment }}</h4>
           </div>
 
-          {% if venue is not None %}
-            <form enctype="multipart/form-data" action="/add/{{ segment }}/new_record/{{ venue }}" method="post">
-          {% else %}
-            <form enctype="multipart/form-data" action="/add/{{ segment }}/new_record" method="post">
-          {% endif %}
+          <form enctype="multipart/form-data" action="/add/{{ segment }}/new_record" method="post">
 
             {% csrf_token %}
 
@@ -56,4 +52,37 @@
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+<script>
+    $('#id_venues').on('change', function(){
+
+        var $id_venue = $('#id_venues').val();
+
+        $.ajax({
+            method: "GET",
+            url: "/get_washrooms/" + $id_venue,
+            dataType: 'json',
+            data: {},
+            success: function(data, status) {
+
+                $("#id_washroom_groups").empty();
+
+                var items = data['washroom_options'];
+
+                $.each(items, function(key, value) {
+                    $("#id_washroom_groups").append(
+                      $('<option>', {
+                        value: value.id,
+                        text: value.name
+                    }));
+                });
+
+            },
+            error: function(response) {
+
+            }
+        });
+
+    });
+</script>
+{% endblock javascripts %}
