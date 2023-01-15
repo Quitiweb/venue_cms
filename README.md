@@ -60,7 +60,7 @@
 ### OTHER
 - [x] Mount the API using `ngrok`
 
-### Pending points after develop the API with Carlos
+### Pending points after develop the API with Carlos (MQTT)
 - [ ] `Faucets.playlist` from `Campaign.media`
 - [ ] `Faucets.Status` - Online / Offline
 
@@ -69,3 +69,58 @@
 - Material Dashboard revamp:
     - `apps.home.config.py` (I've deleted this. It looks that it works right)
 - Replaced Purple: #9124a3 by Blue: #064cbd (background buttons and cards)
+
+
+# Pending points for 2023
+
+- [ ] A la hora de crear los grupos de baños (sé que esta parte no estaba pensada) me han comentado que se lían un poco al hacer los grupos, no les parece intuitiva. Tenemos que darle una pensada
+- [x] El registro de usuarios en la pantalla de login hay que quitarlo, los usuarios se crean desde la pantalla de usuarios por un usuario superadministrador
+- [x] En las campañas, al elegir un venue, solo debería mostrar los grupos (de Washroom?) que pertenecen a ese venue, no todos
+- [ ] Dentro de las campañas, debería aparecer un apartado con los archivos multimedia de ese AVNO, así poder seleccionarlos al crear la campaña
+- [ ] Aparte, han querido que viésemos una campaña en el grifo, pero esa parte no la tenemos aún
+- [ ] Tenemos que hacer la parte MQTT
+
+
+## MQTT
+
+Protocola para sistemas IoT
+Suscribirte a mensajes
+Recibes todos los mensajes de un topic
+Si ese mensaje se recibe, pero no estás conectado, no lo lees
+Los topic son tipo: grifos/login/ (topic)
+Si te suscribes a grifos/#/ (recibes todos los topics / mensajes)
+Para Python PAHO (librería)
+
+Servidor: mosquito.org (test.mosquito.org)
+Suscribirse a los topics que se creen ahí.
+Carlos tiene un documento con más info (de texto)
+Esto es un MQTT.
+
+Topic: LOGIN, te manda un a MAC (y su versión de SW pero no se usa)
+Te suscribes al topic /grifos/{MAC}
+
+Get Campaign
+Devolvemos un JSON
+Se envía la dirección dnd está el video alojado
+el grifo descarga los videos (fecha ini y fecha fin)
+
+GET CONFIG (con una configuración)
+Otro comando STATUS: cada minuto, el grifo te manda un status
+Si en tres minutos no ha llegado status, poner OFFLINE el grifo
+
+Socket abierto que en lugar de usar HTTP utiliza MQTT
+Que recibe o envía una serie de mensajes
+Peticiones a /grifos/MAC
+
+COMANDOS
+
+/login/ (para ver el estado)
+/get_playlist/ (para las campaigns)
+A q grupo de baños pertenece. Está en X lugar, tiene un listado de vídeos, con fini y fin.
+
+MQTT explorer (sino por consola en Linux)
+Te conectas y envías mensajes tipo JSON
+
+Hasta las 18:00
+
+Conexión a test.moskito, abro un socket y me suscribo al topic

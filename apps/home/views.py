@@ -1,12 +1,13 @@
 from django import template
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template import loader
 from django.urls import reverse
 
 from apps.home import utils
+from apps.home.models import WashroomGroups
 
 
 @login_required(login_url="/login/")
@@ -32,6 +33,7 @@ def show(request, model):
 def update(request, model, pk):
     loader_template = loader.get_template('layouts/update-record.html')
     instance = get_object_or_404(utils.get_model_from_segment(model), id=pk)
+
     form_object = utils.get_form_from_segment(model)
 
     if request.method == 'POST':
@@ -50,6 +52,24 @@ def update(request, model, pk):
 
 
 @login_required(login_url="/login/")
+def get_washrooms(request, venue=None):
+    if request.method == 'GET':
+        washroom_options = []
+        if venue:
+            washrooms = WashroomGroups.objects.filter(washrooms__venue=venue)
+            for w in washrooms:
+                washroom_options.append({
+                    'id': w.id,
+                    'name': w.get_washrooms()
+                })
+
+        data = {
+            'washroom_options': washroom_options,
+        }
+        return JsonResponse(data)
+
+
+@login_required(login_url="/login/")
 def create_new_record(request, model):
     loader_template = loader.get_template('layouts/add-new-record.html')
     form_object = utils.get_form_from_segment(model)
@@ -57,7 +77,7 @@ def create_new_record(request, model):
     if request.method == 'GET':
         context = {
             'segment': model,
-            'form': form_object
+            'form': form_object,
         }
     else:
         if request.FILES:
@@ -66,8 +86,8 @@ def create_new_record(request, model):
             form = form_object(request.POST)
 
         if form.is_valid():
-            user = form.save(commit=True)
-            user.save()
+            obj = form.save(commit=True)
+            obj.save()
             # messages.success(request, 'user_admin with name {} added.'.format(user.username))
             return HttpResponseRedirect(reverse('show_model', kwargs={'model': model}))
         else:

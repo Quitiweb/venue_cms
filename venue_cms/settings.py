@@ -33,7 +33,8 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://cc3b-66-81-178-238.eu.ngrok.io',
+    # 'https://1437-66-81-178-238.eu.ngrok.io',
+    'https://*.eu.ngrok.io',
 ]
 
 # Application definition

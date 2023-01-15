@@ -12,4 +12,7 @@ urlpatterns = [
     path('update/<str:model>/<int:pk>', views.update, name='update_model'),
     path('reporting', views.reporting, name='reporting'),
     path('profile', views.profile, name='profile'),
+
+    # endpoints
+    path('get_washrooms/<int:venue>', views.get_washrooms, name='get_washrooms'),
 ]

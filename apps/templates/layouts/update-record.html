@@ -38,4 +38,12 @@
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+  $(document).ready(function() {
+    LoadWashrooms();
+  });
+
+  $('#id_venues').on('change', function(){
+    LoadWashrooms();
+  });
+{% endblock javascripts %}

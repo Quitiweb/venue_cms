@@ -16,6 +16,7 @@
           </div>
 
           <form enctype="multipart/form-data" action="/add/{{ segment }}/new_record" method="post">
+
             {% csrf_token %}
 
             <div class="card-body">
@@ -51,4 +52,8 @@
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+  $('#id_venues').on('change', function(){
+    LoadWashrooms();
+  });
+{% endblock javascripts %}
