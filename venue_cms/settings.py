@@ -16,7 +16,8 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-PUBLIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'public'))
+HOST_ROOT = os.path.abspath(os.path.dirname(BASE_DIR))
+PUBLIC_ROOT = os.path.abspath(os.path.join(HOST_ROOT, 'public'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -29,11 +30,13 @@ SECRET_KEY = config('SECRET_KEY', default='')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = [
-    '.eu.ngrok.io', 'cc3b-66-81-178-238.eu.ngrok.io', 'localhost', '127.0.0.1',
+    '.eu.ngrok.io',
+    'localhost',
+    '127.0.0.1',
+    'cms.quitiweb.com',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    # 'https://1437-66-81-178-238.eu.ngrok.io',
     'https://*.eu.ngrok.io',
 ]
 
