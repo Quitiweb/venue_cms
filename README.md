@@ -81,9 +81,10 @@
 - [ ] Tenemos que hacer la parte MQTT
 
 
-## MQTT
+## MQTT (MosQuiTTo)
+https://mosquitto.org
 
-Protocola para sistemas IoT
+Protocolo para sistemas IoT
 Suscribirte a mensajes
 Recibes todos los mensajes de un topic
 Si ese mensaje se recibe, pero no estás conectado, no lo lees
@@ -91,18 +92,18 @@ Los topic son tipo: grifos/login/ (topic)
 Si te suscribes a grifos/#/ (recibes todos los topics / mensajes)
 Para Python PAHO (librería)
 
-Servidor: mosquito.org (test.mosquito.org)
+Servidor: mosquito.org (https://test.mosquito.org)
 Suscribirse a los topics que se creen ahí.
 Carlos tiene un documento con más info (de texto)
-Esto es un MQTT.
+Esto es un MQTT
 
-Topic: LOGIN, te manda un a MAC (y su versión de SW pero no se usa)
+Topic: LOGIN, te manda un a MAC (y su versión de SW, pero no se usa)
 Te suscribes al topic /grifos/{MAC}
 
 Get Campaign
 Devolvemos un JSON
 Se envía la dirección dnd está el video alojado
-el grifo descarga los videos (fecha ini y fecha fin)
+el grifo descarga los videos (fecha-ini y fecha-fin)
 
 GET CONFIG (con una configuración)
 Otro comando STATUS: cada minuto, el grifo te manda un status
@@ -111,6 +112,7 @@ Si en tres minutos no ha llegado status, poner OFFLINE el grifo
 Socket abierto que en lugar de usar HTTP utiliza MQTT
 Que recibe o envía una serie de mensajes
 Peticiones a /grifos/MAC
+
 
 COMANDOS
 
@@ -124,3 +126,10 @@ Te conectas y envías mensajes tipo JSON
 Hasta las 18:00
 
 Conexión a test.moskito, abro un socket y me suscribo al topic
+
+### Notas del MQTT
+
+Creo que lo que quiere Carlos es algo asi: https://www.youtube.com/watch?v=-wPZ_OZBx2I&ab_channel=M.f.abouHASHEM
+Pero esto requiere REDIS + Celery y, por lo tanto, Docker posiblemente.
+
+Tras hablar con Carlos, solo quieres que aparezca "lo que sale en verde"
