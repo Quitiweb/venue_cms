@@ -21,4 +21,4 @@ class UserAdmin(Account):
 
     class Meta:
         verbose_name = 'User Admin'
-        verbose_name_plural = 'User Admin'
+        verbose_name_plural = 'Users Admin'

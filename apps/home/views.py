@@ -113,7 +113,10 @@ def delete(request, model, pk):
 @login_required(login_url="/login/")
 def profile(request):
     html_template = loader.get_template('home/page-user.html')
-    context = {'segment': 'page-user'}
+    context = {
+        'segment': 'page-user',
+        'current_user': request.user,
+    }
     return HttpResponse(html_template.render(context, request))
 
 
