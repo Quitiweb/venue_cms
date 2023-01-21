@@ -86,9 +86,9 @@ def get_objects_from_segment(segment, user):
     if segment in ['campaigns', 'venues', 'media']:
         return model.objects.filter(owner__username=avno_username)
     if segment in ['washrooms', 'washroom-groups']:
-        return model.objects.filter(campaigns__owner__username=avno_username)
+        return model.objects.filter(venue__owner__username=avno_username)
     if segment in ['faucets']:
-        return model.objects.filter(washrooms__campaigns__owner__username=avno_username)
+        return model.objects.filter(washroom__venue__owner__username=avno_username)
 
 
 def get_header_from_segment(segment=None):
