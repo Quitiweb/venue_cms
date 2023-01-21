@@ -19,4 +19,7 @@ class AccountAdmin(UserAdmin):
 
 @admin.register(admin_user)
 class AdminUserAdmin(UserAdmin):
+    fieldsets = UserAdmin.fieldsets + (
+        (None, {'fields': ('avno_user', )}),
+    )
     list_display = ['username', 'email', 'avno_user', ]
