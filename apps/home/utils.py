@@ -83,12 +83,14 @@ def get_objects_from_segment(segment, user):
     except AttributeError:
         raise Exception("This user needs an AVNO user to be assigned.")
 
-    if segment in ['campaigns', 'venues', 'media']:
+    if segment in ['campaigns', 'venues', ]:
         return model.objects.filter(owner__username=avno_username)
     if segment in ['washrooms', 'washroom-groups']:
         return model.objects.filter(venue__owner__username=avno_username)
     if segment in ['faucets']:
         return model.objects.filter(washroom__venue__owner__username=avno_username)
+    if segment in ['media', ]:
+        return model.objects.filter(campaign__owner__username=avno_username)
 
 
 def get_header_from_segment(segment=None):
