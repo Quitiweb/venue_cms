@@ -76,7 +76,7 @@
 - [ ] A la hora de crear los grupos de baños (sé que esta parte no estaba pensada) me han comentado que se lían un poco al hacer los grupos, no les parece intuitiva. Tenemos que darle una pensada
 - [x] El registro de usuarios en la pantalla de login hay que quitarlo, los usuarios se crean desde la pantalla de usuarios por un usuario superadministrador
 - [x] En las campañas, al elegir un venue, solo debería mostrar los grupos (de Washroom?) que pertenecen a ese venue, no todos
-- [ ] Dentro de las campañas, debería aparecer un apartado con los archivos multimedia de ese AVNO, así poder seleccionarlos al crear la campaña
+- [x] Dentro de las campañas, debería aparecer un apartado con los archivos multimedia de ese AVNO, así poder seleccionarlos al crear la campaña
 - [ ] Aparte, han querido que viésemos una campaña en el grifo, pero esa parte no la tenemos aún
 - [ ] Tenemos que hacer la parte MQTT
 
@@ -120,7 +120,7 @@ COMANDOS
 /get_playlist/ (para las campaigns)
 A q grupo de baños pertenece. Está en X lugar, tiene un listado de vídeos, con fini y fin.
 
-MQTT explorer (sino por consola en Linux)
+MQTT explorer (si no, por consola en Linux)
 Te conectas y envías mensajes tipo JSON
 
 Hasta las 18:00
@@ -132,4 +132,4 @@ Conexión a test.moskito, abro un socket y me suscribo al topic
 Creo que lo que quiere Carlos es algo asi: https://www.youtube.com/watch?v=-wPZ_OZBx2I&ab_channel=M.f.abouHASHEM
 Pero esto requiere REDIS + Celery y, por lo tanto, Docker posiblemente.
 
-Tras hablar con Carlos, solo quieres que aparezca "lo que sale en verde"
+Tras hablar con Carlos, solo quiere que aparezca "lo que sale en verde"

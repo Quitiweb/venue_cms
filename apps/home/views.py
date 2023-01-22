@@ -48,6 +48,9 @@ def update(request, model, pk):
         'segment': model,
         'form': form
     }
+    if model == 'campaigns':
+        context['media'] = [m for m in instance.media_files.all()]
+
     return HttpResponse(loader_template.render(context, request))
 
 

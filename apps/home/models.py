@@ -109,7 +109,7 @@ class Media(models.Model):
     file = models.FileField(upload_to='media/', null=True, blank=True)
 
     campaign = models.ForeignKey(
-        "Campaign", on_delete=models.CASCADE, null=True)
+        "Campaign", on_delete=models.CASCADE, null=True, related_name="media_files")
     date_uploaded = models.DateTimeField(auto_now_add=True)
     type = models.CharField(
         max_length=25,

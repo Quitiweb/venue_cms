@@ -31,6 +31,23 @@
             <button class="btn btn-primary btn-block" type="submit">Update</button>
 
           </form>
+
+          {% if segment in 'campaigns' and media|length > 0 %}
+            <div class="card-body">
+              <div class="table-responsive">
+
+                <h4>Media files for this campaign</h4>
+                <ul style="padding-left: 10px;">
+                  {% for m in media %}
+                    <li style="list-style-type: none;">
+                      <a href="/update/media/{{ m.id }}">{{ m.name }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+
+              </div>
+            </div>
+          {% endif %}
         </div>
       </div>
   </div>
