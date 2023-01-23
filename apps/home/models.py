@@ -84,11 +84,11 @@ class Washroom(models.Model):
 
 
 class Faucet(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, blank=True, null=True)
     mac = models.CharField(max_length=100)
-    ip_address = models.CharField(max_length=100)
-    status = models.CharField(max_length=50)
-    playlist = models.CharField(max_length=100)
+    ip_address = models.CharField(max_length=100, blank=True, null=True)
+    status = models.CharField(max_length=50, blank=True, null=True)
+    playlist = models.CharField(max_length=100, blank=True, null=True)
 
     washroom = models.ForeignKey(
         'Washroom', on_delete=models.CASCADE, related_name='faucets', null=True)

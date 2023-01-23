@@ -5,9 +5,10 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template import loader
 from django.urls import reverse
+from rest_framework.authtoken.models import Token
 
 from apps.home import utils
-from apps.home.models import WashroomGroups
+from apps.home.models import Faucet, WashroomGroups
 
 
 @login_required(login_url="/login/")
@@ -70,6 +71,34 @@ def get_washrooms(request, venue=None):
             'washroom_options': washroom_options,
         }
         return JsonResponse(data)
+
+
+def api_login(request):
+    data = {}
+    if request.method == 'GET':
+        token = r"qEukfbNJ70Waitk2AvycmtfP?xel-9/pwps6iRSQ"
+        mac = request.GET.get('mac', None)
+        print(mac)
+
+        if mac:
+            faucet, created = Faucet.objects.get_or_create(mac=str(mac))
+
+            if created:
+                faucet.name = "Faucet created from API"
+
+            faucet.status = "ONLINE"
+            faucet.save()
+        else:
+            mac = "please, use a correct MAC address"
+            token = None
+
+        # token = Token.objects.create(user=user)
+        data = {
+            'mac': mac,
+            'token': token
+        }
+
+    return JsonResponse(data)
 
 
 @login_required(login_url="/login/")
