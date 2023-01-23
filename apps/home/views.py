@@ -119,7 +119,8 @@ def api_get_playlist(request):
             if not created:
                 if faucet.washroom:
                     try:
-                        campaign = Campaign.objects.get(venues=faucet.washroom.venue)
+                        # TODO: Quitar el first y hablarlo con Carlos porque pueden ser varias
+                        campaign = Campaign.objects.filter(venues=faucet.washroom.venue).first()
                         for m in campaign.media_files.all():
                             videos["{}".format(m.type)] = m.name
 
