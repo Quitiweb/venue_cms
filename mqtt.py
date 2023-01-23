@@ -1,21 +1,30 @@
 import paho.mqtt.client as mqtt
 
-
-IP = '51.77.150.39'
-USER = 'debian'
-PASS = 'vxPm23ftT9wg'
+host = 'test.mosquitto.org'
 
 
 def on_connect(local_client, userdata, rc):
-    local_client.subscribe("$SYS/#")
+    print("Connected with result code", rc)
+    # local_client.subscribe("$SYS/#")
+    # local_client.subscribe("$SYS/grifos/login")
+    local_client.subscribe(topic='grifos/login', qos=2)
 
 
-def on_message(local_client, userdata, msg):
-    # Do something
-    pass
+def on_message(local_client, userdata, message):
+    print(message.topic, message.payload)
+    print('------------------------------')
+    print('topic: %s' % message.topic)
+    print('payload: %s' % message.payload)
+    print('qos: %d' % message.qos)
+    # if str(message.payload).find('CMD') != -1
 
 
-client = mqtt.Client()
+# client = mqtt.Client(
+#     client_id="", clean_session=True, userdata=None,
+#     protocol=mqtt.MQTTv311, transport="tcp"
+# )
+
+client = mqtt.Client(client_id="grifo_cms", clean_session=False)
 client.on_connect = on_connect
 client.on_message = on_message
 
@@ -27,13 +36,12 @@ client.on_message = on_message
 
 # client.connect("test.mosquitto.org", 1883, 60)
 client.tls_set()
-client.username_pw_set(USER, PASS)
-# client.connect(IP, 9101, 10)
-client.connect(host=IP, port=1883, keepalive=60)
+# client.connect(host, 9101, 10)
+client.connect(host=host, port=1883, keepalive=60)
 print(client)
 print(client.on_connect)
 print(client.on_message)
 
 # client.connect("test.mosquitto.org/#/", 1883, 60)
 # client.loop_start()
-# client.loop_forever()
+client.loop_forever()
