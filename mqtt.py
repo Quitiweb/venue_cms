@@ -1,22 +1,51 @@
+import json
 import paho.mqtt.client as mqtt
+import requests
 
-host = 'test.mosquitto.org'
+host = "test.mosquitto.org"
+cms_url = "http://cms.quitiweb.com"
+token = r"qEukfbNJ70Waitk2AvycmtfP?xel-9/pwps6iRSQ"
 
 
-def on_connect(local_client, userdata, rc):
+def on_connect(local_client, userdata, flags, rc):
+    print('------------------------------')
     print("Connected with result code", rc)
     # local_client.subscribe("$SYS/#")
     # local_client.subscribe("$SYS/grifos/login")
-    local_client.subscribe(topic='grifos/login', qos=2)
+    local_client.subscribe(topic='grifos/#', qos=2)
 
 
 def on_message(local_client, userdata, message):
-    print(message.topic, message.payload)
+    # print(message.topic, message.payload)
     print('------------------------------')
-    print('topic: %s' % message.topic)
-    print('payload: %s' % message.payload)
-    print('qos: %d' % message.qos)
-    # if str(message.payload).find('CMD') != -1
+    msg = str(message.payload.decode("utf-8"))
+
+    print('topic: {}'.format(message.topic))
+    print('payload: {}'.format(message.payload))
+    print('qos: {}'.format(message.qos))
+
+    if "mac" in msg and "version" in msg:
+        print("LOGIN COMMAND")
+        payload_json = json.loads(msg)
+        mac = payload_json['mac']
+
+        response = requests.get(
+            cms_url + "/api/login",
+            params={"mac": mac}
+        )
+        res_json = response.json()
+        # data = "{" + "mac: {}, token: {}".format(mac, token) + "}"
+
+        local_client.publish(
+            topic="grifos/{}".format(mac),
+            payload=str(res_json)
+        )
+
+    if "GetDate" in msg:
+        print("GetDate")
+
+    if "GetPlaylist" in msg:
+        print("GetPlaylist")
 
 
 # client = mqtt.Client(
@@ -28,20 +57,11 @@ client = mqtt.Client(client_id="grifo_cms", clean_session=False)
 client.on_connect = on_connect
 client.on_message = on_message
 
-# client = mqtt.Client("mqtt-test")  # client ID "mqtt-test"
-# client.on_connect = on_connect
-# client.on_message = on_message
 # client.username_pw_set(USER, PASS)
-# client.connect('127.0.0.1', 1883)
-
-# client.connect("test.mosquitto.org", 1883, 60)
-client.tls_set()
+# client.tls_set()
 # client.connect(host, 9101, 10)
-client.connect(host=host, port=1883, keepalive=60)
-print(client)
-print(client.on_connect)
-print(client.on_message)
+# client.connect(host=host, posrt=1883, keepalive=60)
+client.connect(host=host, port=1883)
 
-# client.connect("test.mosquitto.org/#/", 1883, 60)
 # client.loop_start()
 client.loop_forever()
