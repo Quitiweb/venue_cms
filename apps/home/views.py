@@ -5,10 +5,9 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template import loader
 from django.urls import reverse
-from rest_framework.authtoken.models import Token
 
 from apps.home import utils
-from apps.home.models import Faucet, WashroomGroups
+from apps.home.models import Campaign, Faucet, WashroomGroups
 
 
 @login_required(login_url="/login/")
@@ -78,7 +77,6 @@ def api_login(request):
     if request.method == 'GET':
         token = r"qEukfbNJ70Waitk2AvycmtfP?xel-9/pwps6iRSQ"
         mac = request.GET.get('mac', None)
-        print(mac)
 
         if mac:
             faucet, created = Faucet.objects.get_or_create(mac=str(mac))
@@ -92,10 +90,55 @@ def api_login(request):
             mac = "please, use a correct MAC address"
             token = None
 
-        # token = Token.objects.create(user=user)
         data = {
             'mac': mac,
             'token': token
+        }
+
+    return JsonResponse(data)
+
+
+def api_get_playlist(request):
+    data = {}
+    if request.method == 'GET':
+        message = ""
+        videos = {}
+        dates = {}
+        mac = request.GET.get('mac', None)
+
+        if mac:
+            faucet, created = Faucet.objects.get_or_create(mac=str(mac))
+
+            if created:
+                faucet.name = "Faucet created from API"
+                message = "The faucet has recently created"
+
+            faucet.status = "ONLINE"
+            faucet.save()
+
+            if not created:
+                if faucet.washroom:
+                    try:
+                        campaign = Campaign.objects.get(venues=faucet.washroom.venue)
+                        for m in campaign.media_files.all():
+                            videos["{}".format(m.type)] = m.name
+
+                        dates = {
+                            "begin": str(campaign.start_date),
+                            "end": str(campaign.end_date)
+                        }
+                    except Campaign.DoesNotExist:
+                        message = "NO DATA"
+                else:
+                    message = "This faucet does not have any Washroom linked"
+        else:
+            message = "Please, use a correct MAC address"
+
+        data = {
+            "command": "SetPlay",
+            "message": message,
+            "videos": videos,
+            "date": dates,
         }
 
     return JsonResponse(data)

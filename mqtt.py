@@ -4,6 +4,7 @@ import requests
 
 host = "test.mosquitto.org"
 cms_url = "http://cms.quitiweb.com"
+# cms_url = "http://127.0.0.1:8000"
 token = r"qEukfbNJ70Waitk2AvycmtfP?xel-9/pwps6iRSQ"
 
 
@@ -24,6 +25,10 @@ def on_message(local_client, userdata, message):
     print('payload: {}'.format(message.payload))
     print('qos: {}'.format(message.qos))
 
+    mac = ""
+    response = {}
+    res_json = ""
+
     if "mac" in msg and "version" in msg:
         print("LOGIN COMMAND")
         payload_json = json.loads(msg)
@@ -33,19 +38,29 @@ def on_message(local_client, userdata, message):
             cms_url + "/api/login",
             params={"mac": mac}
         )
-        res_json = response.json()
-        # data = "{" + "mac: {}, token: {}".format(mac, token) + "}"
 
-        local_client.publish(
-            topic="grifos/{}".format(mac),
-            payload=str(res_json)
+    elif "GetDate" in msg:
+        print("GetDate COMMAND")
+
+    elif "GetPlaylist" in msg:
+        print("GetPlaylist COMMAND")
+        topic_str = str(message.topic)
+        mac = topic_str.split("/")[1]
+
+        response = requests.get(
+            cms_url + "/api/get_playlist",
+            params={"mac": mac}
         )
+    else:
+        return
 
-    if "GetDate" in msg:
-        print("GetDate")
+    if response:
+        res_json = response.json()
 
-    if "GetPlaylist" in msg:
-        print("GetPlaylist")
+    local_client.publish(
+        topic="grifos/{}".format(mac),
+        payload=str(res_json)
+    )
 
 
 # client = mqtt.Client(
