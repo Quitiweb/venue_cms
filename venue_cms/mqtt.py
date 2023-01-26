@@ -79,4 +79,4 @@ client.on_message = on_message
 client.connect(host=host, port=1883)
 
 # client.loop_start()
-client.loop_forever()
+# client.loop_forever()

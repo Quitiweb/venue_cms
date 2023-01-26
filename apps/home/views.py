@@ -105,6 +105,7 @@ def api_get_playlist(request):
         videos = {}
         dates = {}
         mac = request.GET.get('mac', None)
+        cms_url = "http://cms.quitiweb.com"
 
         if mac:
             faucet, created = Faucet.objects.get_or_create(mac=str(mac))
@@ -122,7 +123,7 @@ def api_get_playlist(request):
                         # TODO: Quitar el first y hablarlo con Carlos porque pueden ser varias
                         campaign = Campaign.objects.filter(venues=faucet.washroom.venue).first()
                         for m in campaign.media_files.all():
-                            videos["{}".format(m.type)] = m.name
+                            videos["{}".format(m.type)] = cms_url + m.file.url
 
                         dates = {
                             "begin": str(campaign.start_date),
