@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.core.validators import RegexValidator
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Campaign(models.Model):
@@ -9,7 +10,7 @@ class Campaign(models.Model):
     end_date = models.DateField(blank=True, null=True)
     venues = models.ForeignKey('Venue', on_delete=models.CASCADE, null=True)
     washroom_groups = models.ForeignKey(
-        'WashroomGroups', on_delete=models.CASCADE, null=True, related_name='campaigns')
+        'WashroomGroups', on_delete=models.CASCADE, null=True, related_name='campaigns', blank=True)
     owner = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL'), on_delete=models.CASCADE)
 
     def __str__(self):
@@ -30,9 +31,7 @@ class Venue(models.Model):
         help_text='This field is auto-filled with the number of related Campaigns'
     )
     ad_approver = models.CharField(max_length=100, blank=True, null=True)
-    phone_regex = RegexValidator(
-        regex=r'^\+?1?\d{9,15}$', message="Format: '+999999999'. Max 15 digits.")
-    phone = models.CharField(validators=[phone_regex], max_length=17, blank=True, null=True)
+    phone = PhoneNumberField(blank=True, null=True)
     email = models.EmailField("email address", blank=True, null=True)
 
     contract_start = models.DateField(blank=True, null=True)
@@ -48,10 +47,15 @@ class Venue(models.Model):
 
 
 class WashroomGroups(models.Model):
-    washrooms = models.ManyToManyField(to='Washroom', related_name='washroom_groups')
+    name = models.CharField(max_length=100, default="Washroom Group v1")
+    # washrooms = models.ManyToManyField(to='Washroom', related_name='washroom_group')
+
+    class Meta:
+        verbose_name = "Washroom Group"
+        verbose_name_plural = "Washroom Groups"
 
     def __str__(self):
-        return self.get_washrooms()
+        return "(" + self.name + ")" + " " + self.get_washrooms()
 
     def get_washrooms(self):
         wlist = []
@@ -75,7 +79,7 @@ class Washroom(models.Model):
         default=GENDERS_DEFAULT
     )
     name = models.CharField(max_length=100)
-    group_association = models.CharField(max_length=50)
+    washroom_group = models.ForeignKey(WashroomGroups, models.CASCADE, null=True, blank=True, related_name="washrooms")
     venue = models.ForeignKey(
         'Venue', on_delete=models.CASCADE, related_name='washrooms', null=True)
 

@@ -28,13 +28,13 @@ class VenueForm(forms.ModelForm):
 class WashroomForm(forms.ModelForm):
     class Meta:
         model = models.Washroom
-        fields = ('gender', 'name', 'group_association', 'venue', )
+        fields = ('gender', 'name', 'venue', )
 
 
 class WashroomGroupsForm(forms.ModelForm):
     class Meta:
         model = models.WashroomGroups
-        fields = ('washrooms', )
+        fields = ('name', )
 
 
 class FaucetForm(forms.ModelForm):
