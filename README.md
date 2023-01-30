@@ -73,12 +73,12 @@
 
 # Pending points for 2023
 
-- [ ] A la hora de crear los grupos de baños (sé que esta parte no estaba pensada) me han comentado que se lían un poco al hacer los grupos, no les parece intuitiva. Tenemos que darle una pensada
+- [x] A la hora de crear los grupos de baños (sé que esta parte no estaba pensada) me han comentado que se lían un poco al hacer los grupos, no les parece intuitiva. Tenemos que darle una pensada
 - [x] El registro de usuarios en la pantalla de login hay que quitarlo, los usuarios se crean desde la pantalla de usuarios por un usuario superadministrador
 - [x] En las campañas, al elegir un venue, solo debería mostrar los grupos (de Washroom?) que pertenecen a ese venue, no todos
 - [x] Dentro de las campañas, debería aparecer un apartado con los archivos multimedia de ese AVNO, así poder seleccionarlos al crear la campaña
-- [ ] Aparte, han querido que viésemos una campaña en el grifo, pero esa parte no la tenemos aún
-- [ ] Tenemos que hacer la parte MQTT
+- [x] Aparte, han querido que viésemos una campaña en el grifo, pero esa parte no la tenemos aún
+- [x] Tenemos que hacer la parte MQTT
 
 
 ## MQTT (MosQuiTTo)
@@ -133,3 +133,9 @@ Creo que lo que quiere Carlos es algo asi: https://www.youtube.com/watch?v=-wPZ_
 Pero esto requiere REDIS + Celery y, por lo tanto, Docker posiblemente.
 
 Tras hablar con Carlos, solo quiere que aparezca "lo que sale en verde"
+
+### Call con Carlos y David 27/01/2023
+- [ ] Washroom Groups en el FE
+- [ ] Filtrar por WSG para el endpoint de GetPlaylist
+- [ ] Generar Token de sesion. Los MAC seran usuarios con su token
+- [ ] GetDate

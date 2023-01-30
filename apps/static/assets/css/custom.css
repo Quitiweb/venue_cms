@@ -13,3 +13,11 @@
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 }
+
+ul li ul {
+  padding-left: 20px;
+}
+
+    ul li ul li {
+      list-style-type: none;
+    }

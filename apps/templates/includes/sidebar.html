@@ -32,11 +32,19 @@
           <p>Venues</p>
         </a>
       </li>
-      <li class="nav-item {% if 'washrooms' in segment %} active {% endif %}">
-        <a class="nav-link" href="/show/washrooms">
-          <i class="material-icons">wc</i>
-          <p>Washroom</p>
+      <li class="nav-item {% if 'washroom-groups' in segment %} active {% endif %}">
+        <a class="nav-link" href="/show/washroom-groups">
+          <i class="material-icons">groups</i>
+          <p>Washroom Groups</p>
         </a>
+        <ul>
+          <li class="nav-item {% if 'washrooms' in segment %} active {% endif %}">
+            <a class="nav-link" href="/show/washrooms">
+              <i class="material-icons">wc</i>
+              <p>Washrooms</p>
+            </a>
+          </li>
+        </ul>
       </li>
       <li class="nav-item {% if 'faucets' in segment %} active {% endif %}">
         <a class="nav-link" href="/show/faucets">

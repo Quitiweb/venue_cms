@@ -17,7 +17,7 @@ def get_table_records_from_object(obj, segment):
     if segment == 'washrooms':
         table_records['col1'] = obj.gender
         table_records['col2'] = obj.name
-        table_records['col3'] = obj.group_association
+        table_records['col3'] = obj.washroom_group
         faucets_list = []
         if len(obj.faucets.all()) > 0:
             faucets_list = [f.name for f in obj.faucets.all()]
@@ -99,7 +99,7 @@ def get_header_from_segment(segment=None):
     if segment == 'venues':
         return ['Venue Name', 'Country', 'State', 'Action']
     if segment == 'washrooms':
-        return ['Gender', 'Name', 'Group Association', 'Faucets', 'Action']
+        return ['Gender', 'Name', 'Washroom Group', 'Faucets', 'Action']
     if segment == 'washroom-groups':
         return ['Washrooms', ]
     if segment == 'faucets':
