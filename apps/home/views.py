@@ -114,7 +114,8 @@ def api_get_playlist(request):
     data = {}
     if request.method == 'GET':
         message = ""
-        videos = {}
+        all_videos = []
+        video = {}
         dates = {}
         mac = request.GET.get('mac', None)
         cms_url = "http://cms.quitiweb.com"
@@ -132,10 +133,12 @@ def api_get_playlist(request):
             if not created:
                 if faucet.washroom:
                     try:
+                        # TODO: ver si el `len` es UNO o mas de uno
                         campaign = Campaign.objects.filter(
-                            washroom_groups=faucet.washroom.washroom_groups)
+                            washroom_groups=faucet.washroom.washroom_groups).first()
                         for m in campaign.media_files.all():
-                            videos["{}".format(m.type)] = cms_url + m.file.url
+                            video["{}".format(m.type)] = cms_url + m.file.url
+                            all_videos.append(video)
 
                         dates = {
                             "begin": str(campaign.start_date),
@@ -151,7 +154,7 @@ def api_get_playlist(request):
         data = {
             "command": "SetPlay",
             "message": message,
-            "videos": videos,
+            "videos": all_videos,
             "date": dates,
         }
 
