@@ -59,7 +59,7 @@ def get_washrooms(request, venue=None):
     if request.method == 'GET':
         washroom_options = []
         if venue:
-            washrooms = WashroomGroups.objects.filter(washrooms__venue=venue)
+            washrooms = WashroomGroups.objects.filter(washrooms__venues=venue)
             for w in washrooms:
                 washroom_options.append({
                     'id': w.id,
@@ -98,6 +98,18 @@ def api_login(request):
     return JsonResponse(data)
 
 
+def api_get_date(request):
+    data = {}
+    if request.method == 'GET':
+
+        data = {
+            'command': "SetDate",
+            'message': "2023-01-01"
+        }
+
+    return JsonResponse(data)
+
+
 def api_get_playlist(request):
     data = {}
     if request.method == 'GET':
@@ -120,8 +132,8 @@ def api_get_playlist(request):
             if not created:
                 if faucet.washroom:
                     try:
-                        # TODO: Quitar el first y hablarlo con Carlos porque pueden ser varias
-                        campaign = Campaign.objects.filter(venues=faucet.washroom.venue).first()
+                        campaign = Campaign.objects.filter(
+                            washroom_groups=faucet.washroom.washroom_groups)
                         for m in campaign.media_files.all():
                             videos["{}".format(m.type)] = cms_url + m.file.url
 

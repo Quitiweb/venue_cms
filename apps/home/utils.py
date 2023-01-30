@@ -17,7 +17,7 @@ def get_table_records_from_object(obj, segment):
     if segment == 'washrooms':
         table_records['col1'] = obj.gender
         table_records['col2'] = obj.name
-        table_records['col3'] = obj.washroom_group
+        table_records['col3'] = obj.washroom_groups
         faucets_list = []
         if len(obj.faucets.all()) > 0:
             faucets_list = [f.name for f in obj.faucets.all()]

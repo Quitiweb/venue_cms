@@ -28,7 +28,7 @@ class VenueForm(forms.ModelForm):
 class WashroomForm(forms.ModelForm):
     class Meta:
         model = models.Washroom
-        fields = ('gender', 'name', 'venue', )
+        fields = ('gender', 'name', 'venues', 'washroom_groups', )
 
 
 class WashroomGroupsForm(forms.ModelForm):

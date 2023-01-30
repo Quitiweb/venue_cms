@@ -135,7 +135,12 @@ Pero esto requiere REDIS + Celery y, por lo tanto, Docker posiblemente.
 Tras hablar con Carlos, solo quiere que aparezca "lo que sale en verde"
 
 ### Call con Carlos y David 27/01/2023
-- [ ] Washroom Groups en el FE
-- [ ] Filtrar por WSG para el endpoint de GetPlaylist
-- [ ] Generar Token de sesion. Los MAC seran usuarios con su token
-- [ ] GetDate
+- [x] Washroom Groups en el FE
+- [x] Filtrar por WSG para el endpoint de GetPlaylist
+- [ ] Generar Token de sesión. Los MAC serán usuarios con su token
+- [x] GetDate (qué fecha tiene que devolver exactamente? Solo manda un token)
+ 
+### DUDAS
+- Un Washroom, puede pertenecer al mismo Venue que otro pero a WG diferentes?
+- Un Washroom, puede pertenecer a diferentes Venues que otro pero al mismo WG?
+- Ahora mismo, al crear un Washroom, filtra el WG al seleccionar un Venue

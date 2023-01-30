@@ -21,7 +21,7 @@ class FaucetAdmin(admin.ModelAdmin):
 
 
 class WashroomAdmin(admin.ModelAdmin):
-    list_display = ["name", "gender", "washroom_group", "venue"]
+    list_display = ["name", "gender", "washroom_groups", "venues"]
 
 
 admin.site.register(models.Media, MediaAdmin)

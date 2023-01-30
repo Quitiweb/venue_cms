@@ -8,7 +8,11 @@ class Campaign(models.Model):
     name = models.CharField(max_length=100)
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
+
+    # TODO: Según el PDF, esto es un ManyToMany
     venues = models.ForeignKey('Venue', on_delete=models.CASCADE, null=True)
+
+    # TODO: Según el PDF, eso es un ManyToMany
     washroom_groups = models.ForeignKey(
         'WashroomGroups', on_delete=models.CASCADE, null=True, related_name='campaigns', blank=True)
     owner = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL'), on_delete=models.CASCADE)
@@ -79,8 +83,9 @@ class Washroom(models.Model):
         default=GENDERS_DEFAULT
     )
     name = models.CharField(max_length=100)
-    washroom_group = models.ForeignKey(WashroomGroups, models.CASCADE, null=True, blank=True, related_name="washrooms")
-    venue = models.ForeignKey(
+    washroom_groups = models.ForeignKey(
+        WashroomGroups, models.CASCADE, null=True, blank=True, related_name="washrooms")
+    venues = models.ForeignKey(
         'Venue', on_delete=models.CASCADE, related_name='washrooms', null=True)
 
     def __str__(self):

@@ -48,6 +48,7 @@
               </div>
             </div>
           {% endif %}
+
         </div>
       </div>
   </div>
@@ -56,11 +57,13 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-  $(document).ready(function() {
-    LoadWashrooms();
-  });
+  {% if segment in 'campaigns' %}
+    $(document).ready(function() {
+      LoadWashrooms();
+    });
 
-  $('#id_venues').on('change', function(){
-    LoadWashrooms();
-  });
+    $('#id_venues').on('change', function(){
+      LoadWashrooms();
+    });
+  {% endif %}
 {% endblock javascripts %}

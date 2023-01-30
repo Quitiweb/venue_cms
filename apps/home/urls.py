@@ -16,5 +16,6 @@ urlpatterns = [
     # endpoints
     path('get_washrooms/<int:venue>', views.get_washrooms, name='get_washrooms'),
     path('api/login', views.api_login, name='api_login'),
+    path('api/get_date', views.api_get_date, name='api_get_date'),
     path('api/get_playlist', views.api_get_playlist, name='api_get_playlist'),
 ]
