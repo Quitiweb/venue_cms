@@ -139,8 +139,11 @@ Tras hablar con Carlos, solo quiere que aparezca "lo que sale en verde"
 - [x] Filtrar por WSG para el endpoint de GetPlaylist
 - [ ] Generar Token de sesión. Los MAC serán usuarios con su token
 - [x] GetDate (qué fecha tiene que devolver exactamente? Solo manda un token)
+- [ ] Fecha y hora del servidor
  
 ### DUDAS
 - Un Washroom, puede pertenecer al mismo Venue que otro pero a WG diferentes?
+  - Un Washroom no puede estar en el mismo Venue pero en otro WG diferente
 - Un Washroom, puede pertenecer a diferentes Venues que otro pero al mismo WG?
-- Ahora mismo, al crear un Washroom, filtra el WG al seleccionar un Venue
+- Ahora mismo, al crear un Washroom, filtra el WG al seleccionar un Venue (OK)
+- Hemos hablado durante la llamada del lunes 30/01/2023 que el GetPlaylist devolverá en videos una lista de las urls de todas las MEDIA de la Campaign
