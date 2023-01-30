@@ -147,3 +147,4 @@ Tras hablar con Carlos, solo quiere que aparezca "lo que sale en verde"
 - Un Washroom, puede pertenecer a diferentes Venues que otro pero al mismo WG?
 - Ahora mismo, al crear un Washroom, filtra el WG al seleccionar un Venue (OK)
 - Hemos hablado durante la llamada del lunes 30/01/2023 que el GetPlaylist devolverá en videos una lista de las urls de todas las MEDIA de la Campaign
+- Tb hemos hablado por WhatsApp que, como un Grifo puede tener varias Campaigns asociadas y varios WashroomGroups, la respuesta del MQTT será una lista con los datos de cada Campaign

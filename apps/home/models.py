@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.core.validators import RegexValidator
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -12,13 +11,24 @@ class Campaign(models.Model):
     # TODO: Según el PDF, esto es un ManyToMany
     venues = models.ForeignKey('Venue', on_delete=models.CASCADE, null=True)
 
-    # TODO: Según el PDF, eso es un ManyToMany
+    # TODO: Según el PDF, esto es un ManyToMany
     washroom_groups = models.ForeignKey(
         'WashroomGroups', on_delete=models.CASCADE, null=True, related_name='campaigns', blank=True)
     owner = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL'), on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.name) if self.name else "-"
+
+    def get_media(self):
+        return self.media_files.all()
+
+    def get_media_urls(self):
+        cms_url = "http://cms.quitiweb.com"
+        all_urls = []
+        for m in self.get_media():
+            all_urls.append(cms_url + m.file.url)
+
+        return all_urls
 
 
 class Venue(models.Model):

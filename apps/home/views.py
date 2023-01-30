@@ -113,11 +113,9 @@ def api_get_date(request):
 def api_get_playlist(request):
     data = {}
     if request.method == 'GET':
+        all_data = []
         message = ""
-        videos = []
-        dates = {}
         mac = request.GET.get('mac', None)
-        cms_url = "http://cms.quitiweb.com"
 
         if mac:
             faucet, created = Faucet.objects.get_or_create(mac=str(mac))
@@ -132,21 +130,25 @@ def api_get_playlist(request):
             if not created:
                 if faucet.washroom:
                     try:
-                        # TODO: ver si el `len` es UNO o mas de uno
                         campaigns = Campaign.objects.filter(
                             washroom_groups=faucet.washroom.washroom_groups)
-                        print("HOLA")
-                        print("LEN CAMPAIGN {}".format(len(campaigns)))
-                        campaign = campaigns.first()
-                        for m in campaign.media_files.all():
-                            print("MY VIDEOS")
-                            print(cms_url + m.file.url)
-                            videos.append(cms_url + m.file.url)
 
-                        dates = {
-                            "begin": str(campaign.start_date),
-                            "end": str(campaign.end_date)
-                        }
+                        for campaign in campaigns.all():
+                            videos = campaign.get_media_urls()
+                            dates = {
+                                "begin": str(campaign.start_date),
+                                "end": str(campaign.end_date)
+                            }
+
+                            data = {
+                                "command": "SetPlay",
+                                "message": message,
+                                "videos": videos,
+                                "date": dates,
+                            }
+                            all_data.append(data)
+                            return JsonResponse(all_data)
+
                     except Campaign.DoesNotExist:
                         message = "NO DATA"
                 else:
@@ -157,8 +159,8 @@ def api_get_playlist(request):
         data = {
             "command": "SetPlay",
             "message": message,
-            "videos": videos,
-            "date": dates,
+            "videos": [],
+            "date": "",
         }
 
     return JsonResponse(data)
