@@ -147,7 +147,8 @@ def api_get_playlist(request):
                                 "date": dates,
                             }
                             all_data.append(data)
-                            return JsonResponse(all_data)
+
+                        return JsonResponse(all_data, safe=False)
 
                     except Campaign.DoesNotExist:
                         message = "NO DATA"

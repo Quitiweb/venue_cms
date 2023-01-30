@@ -36,6 +36,9 @@ ALLOWED_HOSTS = [
     'cms.quitiweb.com',
 ]
 
+# HOSTNAME = "http://localhost:8000"
+HOSTNAME = "http://cms.quitiweb.com"
+
 CSRF_TRUSTED_ORIGINS = [
     'https://*.eu.ngrok.io',
 ]

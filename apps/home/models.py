@@ -23,10 +23,9 @@ class Campaign(models.Model):
         return self.media_files.all()
 
     def get_media_urls(self):
-        cms_url = "http://cms.quitiweb.com"
         all_urls = []
         for m in self.get_media():
-            all_urls.append(cms_url + m.file.url)
+            all_urls.append(getattr(settings, 'HOSTNAME') + m.file.url)
 
         return all_urls
 

@@ -1,9 +1,10 @@
 import json
 import paho.mqtt.client as mqtt
 import requests
+from django.conf import settings
 
 host = "test.mosquitto.org"
-cms_url = "http://cms.quitiweb.com"
+HOSTNAME = getattr(settings, 'HOSTNAME')
 
 
 def on_connect(local_client, userdata, flags, rc):
@@ -21,7 +22,6 @@ def on_message(local_client, userdata, message):
     print('qos: {}'.format(message.qos))
 
     mac = ""
-    response = {}
     res_json = ""
 
     if "mac" in msg and "version" in msg:
@@ -30,7 +30,7 @@ def on_message(local_client, userdata, message):
         mac = payload_json['mac']
 
         response = requests.get(
-            cms_url + "/api/login",
+            HOSTNAME + "/api/login",
             params={"mac": mac}
         )
 
@@ -40,7 +40,7 @@ def on_message(local_client, userdata, message):
         token = payload_json['token']
 
         response = requests.get(
-            cms_url + "/api/get_date",
+            HOSTNAME + "/api/get_date",
             params={"token": token}
         )
 
@@ -50,7 +50,7 @@ def on_message(local_client, userdata, message):
         mac = topic_str.split("/")[1]
 
         response = requests.get(
-            cms_url + "/api/get_playlist",
+            HOSTNAME + "/api/get_playlist",
             params={"mac": mac}
         )
     else:
