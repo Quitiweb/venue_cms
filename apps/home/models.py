@@ -93,10 +93,19 @@ class Washroom(models.Model):
 
 
 class Faucet(models.Model):
+    STATUS = (
+        ('ONLINE', 'Online'),
+        ('OFFLINE', 'Offline'),
+    )
+    STATUS_DEFAULT = 'OFFLINE'
+
     name = models.CharField(max_length=100, blank=True, null=True)
     mac = models.CharField(max_length=100)
     ip_address = models.CharField(max_length=100, blank=True, null=True)
-    status = models.CharField(max_length=50, blank=True, null=True)
+    status = models.CharField(
+        choices=STATUS, default=STATUS_DEFAULT,
+        max_length=50, blank=True, null=True
+    )
     playlist = models.CharField(max_length=100, blank=True, null=True)
 
     washroom = models.ForeignKey(

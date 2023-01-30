@@ -28,7 +28,8 @@ def get_table_records_from_object(obj, segment):
         if len(obj.washrooms.all()) > 0:
             wlist = [f.name for f in obj.washrooms.all()]
         wc = wlist if wlist else "not assigned"
-        table_records['col1'] = wc
+        table_records['col1'] = obj.name
+        table_records['col2'] = wc
     if segment == 'faucets':
         table_records['col1'] = obj.name
         table_records['col2'] = obj.mac
@@ -101,7 +102,7 @@ def get_header_from_segment(segment=None):
     if segment == 'washrooms':
         return ['Gender', 'Name', 'Washroom Group', 'Faucets', 'Action']
     if segment == 'washroom-groups':
-        return ['Washrooms', ]
+        return ['Name', 'Washrooms', 'Action']
     if segment == 'faucets':
         return ['Faucet Name', 'MAC', 'IP Address', 'Status', 'Action']
     if segment == 'media':
