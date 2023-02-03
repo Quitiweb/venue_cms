@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
@@ -54,7 +56,7 @@ def api_get_date(request):
 
         data = {
             'command': "SetDate",
-            'message': "2023-01-01"
+            'message': str(datetime.datetime.now())
         }
 
     return JsonResponse(data)
