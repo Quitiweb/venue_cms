@@ -139,7 +139,7 @@ Tras hablar con Carlos, solo quiere que aparezca "lo que sale en verde"
 - [x] Filtrar por WSG para el endpoint de GetPlaylist
 - [ ] Generar Token de sesión. Los MAC serán usuarios con su token
 - [x] GetDate (qué fecha tiene que devolver exactamente? Solo manda un token)
-- [ ] Fecha y hora del servidor
+- [x] Fecha y hora del servidor
  
 ### DUDAS
 - Un Washroom, puede pertenecer al mismo Venue que otro pero a WG diferentes?
