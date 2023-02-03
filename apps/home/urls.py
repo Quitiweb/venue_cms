@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from apps.home import views
+from apps.home import views, views_api
 
 urlpatterns = [
     # Matches any html file
@@ -14,8 +14,8 @@ urlpatterns = [
     path('profile', views.profile, name='profile'),
 
     # endpoints
-    path('get_washrooms/<int:venue>', views.get_washrooms, name='get_washrooms'),
-    path('api/login', views.api_login, name='api_login'),
-    path('api/get_date', views.api_get_date, name='api_get_date'),
-    path('api/get_playlist', views.api_get_playlist, name='api_get_playlist'),
+    path('get_washrooms/<int:venue>', views_api.get_washrooms, name='get_washrooms'),
+    path('api/login', views_api.api_login, name='api_login'),
+    path('api/get_date', views_api.api_get_date, name='api_get_date'),
+    path('api/get_playlist', views_api.api_get_playlist, name='api_get_playlist'),
 ]

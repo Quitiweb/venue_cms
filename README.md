@@ -40,7 +40,7 @@
 - [x] Only SuperUsers can create users
 - [x] Filter Models by AvnoUser
 - [x] User Admin & AVNO Admin sections in sidebar
-- [ ] Password field - Fix
+- [x] Password field - Fix
 - [ ] Add New record when No Avno user = Owner field
 
 ### HOME OBJECTS
@@ -53,15 +53,15 @@
 
 ### VISUAL NOTES
 - [X] Blue colour instead of purple (same as the login in the doc)
-- [ ] Choose dates from Calendar
-- [ ] Plus icon button for add new records (like Carlos design)
+- [x] Choose dates from Calendar
 - [ ] True | False (Green | Red) - Give it some format in table
+- [ ] Fix: Some inputs do not have visual Dashboard style
 
 ### OTHER
 - [x] Mount the API using `ngrok`
 
 ### Pending points after develop the API with Carlos (MQTT)
-- [ ] `Faucets.playlist` from `Campaign.media`
+- [x] `Faucets.playlist` from `Campaign.media`
 - [ ] `Faucets.Status` - Online / Offline
 
 

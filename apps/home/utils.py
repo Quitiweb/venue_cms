@@ -1,5 +1,5 @@
 from apps.home import models, forms
-from users.forms import UserAdminForm, AvnoAdminForm
+from users.forms import UserAdminForm, AvnoAdminForm, UserAdminUpdateForm, AvnoAdminUpdateForm
 from users.models import Account, UserAdmin as admin_user
 
 
@@ -147,3 +147,22 @@ def get_form_from_segment(segment=None):
         return UserAdminForm
     if segment == 'avno-admin':
         return AvnoAdminForm
+
+
+def get_update_form_from_segment(segment=None):
+    if segment == 'campaigns':
+        return forms.CampaignForm
+    if segment == 'venues':
+        return forms.VenueForm
+    if segment == 'washrooms':
+        return forms.WashroomForm
+    if segment == 'washroom-groups':
+        return forms.WashroomGroupsForm
+    if segment == 'faucets':
+        return forms.FaucetForm
+    if segment == 'media':
+        return forms.MediaForm
+    if segment == 'user-admin':
+        return UserAdminUpdateForm
+    if segment == 'avno-admin':
+        return AvnoAdminUpdateForm
