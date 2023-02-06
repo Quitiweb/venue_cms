@@ -2,6 +2,7 @@ import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from rest_framework.authtoken.models import Token
 
 from apps.home.models import Campaign, Faucet, WashroomGroups
 
@@ -27,14 +28,20 @@ def get_washrooms(request, venue=None):
 def api_login(request):
     data = {}
     if request.method == 'GET':
-        token = r"qEukfbNJ70Waitk2AvycmtfP?xel-9/pwps6iRSQ"
         mac = request.GET.get('mac', None)
+        # token = r"qEukfbNJ70Waitk2AvycmtfP?xel-9/pwps6iRSQ"
 
         if mac:
             faucet, created = Faucet.objects.get_or_create(mac=str(mac))
 
             if created:
                 faucet.name = "Faucet created from API"
+                token = "Faucet needs a Washroom to generate Token"
+            else:
+                faucet_user = faucet.washroom.venues.owner
+                token_obj, token_created = Token.objects.get_or_create(user=faucet_user)
+                token = token_obj.key
+                faucet.token = token
 
             faucet.status = "ONLINE"
             faucet.save()

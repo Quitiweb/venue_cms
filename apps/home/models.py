@@ -95,7 +95,7 @@ class Washroom(models.Model):
     washroom_groups = models.ForeignKey(
         WashroomGroups, models.CASCADE, null=True, blank=True, related_name="washrooms")
     venues = models.ForeignKey(
-        'Venue', on_delete=models.CASCADE, related_name='washrooms', null=True)
+        Venue, on_delete=models.CASCADE, related_name='washrooms', null=True)
 
     def __str__(self):
         return str(self.name) if self.name else "-"
@@ -118,7 +118,9 @@ class Faucet(models.Model):
     playlist = models.CharField(max_length=100, blank=True, null=True)
 
     washroom = models.ForeignKey(
-        'Washroom', on_delete=models.CASCADE, related_name='faucets', null=True)
+        Washroom, on_delete=models.CASCADE, related_name='faucets', null=True)
+
+    token = models.CharField(max_length=40, null=True, blank=True)
 
     def __str__(self):
         return str(self.name) if self.name else "-"
@@ -136,7 +138,7 @@ class Media(models.Model):
     file = models.FileField(upload_to='media/', null=True, blank=True)
 
     campaign = models.ForeignKey(
-        "Campaign", on_delete=models.CASCADE, null=True, related_name="media_files")
+        Campaign, on_delete=models.CASCADE, null=True, related_name="media_files")
     date_uploaded = models.DateTimeField(auto_now_add=True)
     type = models.CharField(
         max_length=25,

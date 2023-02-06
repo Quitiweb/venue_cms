@@ -54,6 +54,7 @@ INSTALLED_APPS = [
 
     # third apps
     'rest_framework',
+    "rest_framework.authtoken",
     "phonenumber_field",
 
     # apps
@@ -143,3 +144,27 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Base USER model for django
 AUTH_USER_MODEL = 'users.Account'
+
+# Setup of REST framework library
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ],
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser'
+    ),
+    # API VERSION
+    'API_VERSION': "v1.0"
+}
