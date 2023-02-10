@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from rest_framework.authtoken.models import Token
 
+from apps.home.api.permissions import has_mac_permissions
 from apps.home.models import Campaign, Faucet, WashroomGroups
 from users.models import MacUser
 
@@ -77,27 +78,28 @@ def api_get_date(request):
 
 def api_get_playlist(request):
     data = {}
-    if request.method == 'GET':
-        all_data = []
-        message = ""
-        mac = request.GET.get('mac', None)
+    if request.method == "GET":
+        message = "OK"
+        mac = request.GET.get("mac", None)
+        token = request.GET.get("token", None)
 
         if mac:
             faucet, created = Faucet.objects.get_or_create(mac=str(mac))
 
             if created:
-                faucet.name = "Faucet created from API"
+                faucet.name = "Faucet created from API. ID: {}".format(faucet.id)
                 message = "The faucet has recently created"
 
             faucet.status = "ONLINE"
             faucet.save()
 
-            if not created:
+            if not created and has_mac_permissions(mac, token):
                 if faucet.washroom:
                     try:
                         campaigns = Campaign.objects.filter(
                             washroom_groups=faucet.washroom.washroom_groups)
 
+                        camp_data = []
                         for campaign in campaigns.all():
                             videos = campaign.get_media_urls()
                             dates = {
@@ -105,28 +107,33 @@ def api_get_playlist(request):
                                 "end": str(campaign.end_date)
                             }
 
-                            data = {
-                                "command": "SetPlay",
-                                "message": message,
+                            new_data = {
                                 "videos": videos,
                                 "date": dates,
                             }
-                            all_data.append(data)
+                            camp_data.append(new_data)
 
-                        return JsonResponse(all_data, safe=False)
+                        data = {
+                            "command": "SetPlay",
+                            "message": message,
+                            "campaigns": camp_data,
+                        }
+
+                        return JsonResponse(data, safe=False)
 
                     except Campaign.DoesNotExist:
                         message = "NO DATA"
                 else:
                     message = "This faucet does not have any Washroom linked"
+            else:
+                message = "Token Authentication failed"
         else:
             message = "Please, use a correct MAC address"
 
         data = {
             "command": "SetPlay",
             "message": message,
-            "videos": [],
-            "date": "",
+            "campaigns": [],
         }
 
     return JsonResponse(data)
