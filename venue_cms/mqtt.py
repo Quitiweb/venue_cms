@@ -48,10 +48,11 @@ def on_message(local_client, userdata, message):
         print("GetPlaylist COMMAND")
         topic_str = str(message.topic)
         mac = topic_str.split("/")[1]
+        token = json.loads(msg).get("token", None)
 
         response = requests.get(
             HOSTNAME + "/api/get_playlist",
-            params={"mac": mac}
+            params={"mac": mac, "token": token}
         )
     else:
         return
