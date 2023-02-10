@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from rest_framework.authtoken.models import Token
 
 from apps.home.models import Campaign, Faucet, WashroomGroups
+from users.models import MacUser
 
 
 @login_required(login_url="/login/")
@@ -29,29 +30,34 @@ def api_login(request):
     data = {}
     if request.method == 'GET':
         mac = request.GET.get('mac', None)
-        # token = r"qEukfbNJ70Waitk2AvycmtfP?xel-9/pwps6iRSQ"
 
         if mac:
             faucet, created = Faucet.objects.get_or_create(mac=str(mac))
-
             if created:
-                faucet.name = "Faucet created from API"
-                token = "Faucet needs a Washroom to generate Token"
-            else:
-                faucet_user = faucet.washroom.venues.owner
-                token_obj, token_created = Token.objects.get_or_create(user=faucet_user)
-                token = token_obj.key
-                faucet.token = token
+                faucet.name = "Faucet created from API. ID: {}".format(str(faucet.id))
+
+            faucet_user, user_created = MacUser.objects.get_or_create(
+                username=mac.replace(":", ""))
+            if user_created:
+                faucet_user.mac_user = mac
+                faucet_user.save()
+
+            token_obj, token_created = Token.objects.get_or_create(user=faucet_user)
+            token = token_obj.key
 
             faucet.status = "ONLINE"
             faucet.save()
         else:
-            mac = "please, use a correct MAC address"
-            token = None
+            data = {
+                "command": "setToken",
+                "token": None,
+                "error": "please, use a correct MAC address"
+            }
+            return JsonResponse(data)
 
         data = {
-            'mac': mac,
-            'token': token
+            "command": "setToken",
+            "token": token
         }
 
     return JsonResponse(data)

@@ -20,3 +20,11 @@ class UserAdmin(Account):
     class Meta:
         verbose_name = 'User Admin'
         verbose_name_plural = 'Users Admin'
+
+
+class MacUser(Account):
+    mac_user = models.CharField(default="00:00:00:00:00:00", max_length=100)
+
+    class Meta:
+        verbose_name = "MAC User"
+        verbose_name_plural = "MAC Users"

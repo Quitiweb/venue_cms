@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from users.models import Account, UserAdmin as admin_user
+from users.models import Account, UserAdmin as admin_user, MacUser
 
 
 @admin.register(Account)
@@ -23,3 +23,11 @@ class AdminUserAdmin(UserAdmin):
         (None, {'fields': ('avno_user', )}),
     )
     list_display = ['username', 'email', 'avno_user', ]
+
+
+@admin.register(MacUser)
+class MacUserAdmin(UserAdmin):
+    fieldsets = UserAdmin.fieldsets + (
+        (None, {'fields': ('mac_user', )}),
+    )
+    list_display = ['username', 'email', 'mac_user', ]

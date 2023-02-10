@@ -137,7 +137,7 @@ Tras hablar con Carlos, solo quiere que aparezca "lo que sale en verde"
 ### Call con Carlos y David 27/01/2023
 - [x] Washroom Groups en el FE
 - [x] Filtrar por WSG para el endpoint de GetPlaylist
-- [ ] Generar Token de sesión. Los MAC serán usuarios con su token
+- [x] Generar Token de sesión. Los MAC serán usuarios con su token
 - [x] GetDate (qué fecha tiene que devolver exactamente? Solo manda un token)
 - [x] Fecha y hora del servidor
  

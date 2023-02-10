@@ -120,7 +120,10 @@ class Faucet(models.Model):
     washroom = models.ForeignKey(
         Washroom, on_delete=models.CASCADE, related_name='faucets', null=True)
 
-    token = models.CharField(max_length=40, null=True, blank=True)
+    owner = models.ForeignKey(
+        "users.MacUser", on_delete=models.CASCADE,
+        blank=True, null=True
+    )
 
     def __str__(self):
         return str(self.name) if self.name else "-"
