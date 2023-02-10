@@ -84,16 +84,32 @@ def api_get_playlist(request):
         token = request.GET.get("token", None)
 
         if mac:
+            user_token = ""
             faucet, created = Faucet.objects.get_or_create(mac=str(mac))
 
             if created:
                 faucet.name = "Faucet created from API. ID: {}".format(faucet.id)
                 message = "The faucet has recently created"
+            else:
+                faucet_user, user_created = MacUser.objects.get_or_create(
+                    username=mac.replace(":", ""))
+                if user_created:
+                    faucet_user.mac_user = mac
+                    faucet_user.save()
+
+                token_obj, token_created = Token.objects.get_or_create(user=faucet_user)
+                user_token = token_obj.key
 
             faucet.status = "ONLINE"
             faucet.save()
 
-            if not created and has_mac_permissions(mac, token):
+            print("")
+            print("USER TOKEN: {}".format(user_token))
+            print("")
+            print("")
+            print("TOKEN: {}".format(token))
+            print("")
+            if not created and has_mac_permissions(token, user_token):
                 if faucet.washroom:
                     try:
                         campaigns = Campaign.objects.filter(
